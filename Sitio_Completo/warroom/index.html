@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Cuerna Garage | War Room 27 Herramientas - Predictor Universal Libro Azul</title>
+    <style>
+        /* ========== ESTILOS PREMIUM BLACK EDITION ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000000;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            padding: 30px 24px 50px 24px;
+            color: #ffffff;
+        }
+
+        .war-room-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .logo-central {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 180px;
+            margin: 0 auto 30px auto;
+            background-color: #000000;
+            box-sizing: border-box;
+        }
+        .logo-central img {
+            width: 100%;
+            height: auto;
+            max-height: 100%;
+            object-fit: contain;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+        }
+
+        .changelog-premium {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: rgba(17, 19, 28, 0.95);
+            backdrop-filter: blur(8px);
+            border-left: 3px solid #d4af37;
+            border-radius: 12px;
+            padding: 10px 18px;
+            font-family: monospace;
+            font-size: 0.7rem;
+            color: #8a90a6;
+            z-index: 1000;
+            cursor: help;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+        }
+        .changelog-premium:hover {
+            background-color: #11131c;
+            border-left-width: 4px;
+            color: #d4af37;
+            transform: scale(1.02);
+        }
+        .changelog-premium .tooltip-log {
+            display: none;
+            position: absolute;
+            bottom: 130%;
+            left: 0;
+            background-color: #000000;
+            border: 1px solid #d4af37;
+            border-radius: 12px;
+            padding: 10px 14px;
+            width: 260px;
+            color: #ffffff;
+            font-family: 'Inter', monospace;
+            font-size: 0.65rem;
+            line-height: 1.4;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.8);
+            z-index: 1001;
+            pointer-events: none;
+        }
+        .changelog-premium:hover .tooltip-log {
+            display: block;
+        }
+
+        .grid-3-columnas {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            margin-bottom: 45px;
+        }
+
+        .columna {
+            background-color: #11131c;
+            border: 1px solid #232736;
+            border-radius: 28px;
+            padding: 24px 22px;
+            transition: box-shadow 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .columna h3, .panel-kpis h3, .panel-cierre h3 {
+            color: #d4af37;
+            font-size: 1.35rem;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            border-left: 4px solid #d4af37;
+            padding-left: 14px;
+            margin-bottom: 20px;
+        }
+
+        .campo {
+            margin-bottom: 18px;
+            display: flex;
+            flex-direction: column;
+        }
+        .campo label {
+            color: #8a90a6;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.6px;
+            margin-bottom: 6px;
+        }
+        input, select {
+            background-color: #000000;
+            border: 1px solid #232736;
+            color: #ffffff;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+        input:focus, select:focus {
+            border-color: #d4af37;
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+        }
+
+        .checkbox-line {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 16px 0 12px 0;
+        }
+        .checkbox-line input {
+            width: 20px;
+            height: 20px;
+            accent-color: #d4af37;
+            cursor: pointer;
+        }
+        .checkbox-line label {
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .grupo-botones {
+            margin: 20px 0 15px;
+        }
+        .grupo-botones label {
+            color: #8a90a6;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .botonera {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .btn-enlace {
+            background-color: #000000;
+            border: 1px solid #d4af37;
+            color: #d4af37;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            display: inline-block;
+            text-align: center;
+            cursor: pointer;
+        }
+        .btn-enlace:hover {
+            background-color: #d4af37;
+            color: #000000;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+            transform: scale(1.02);
+        }
+
+        .campo-verificacion {
+            margin: 10px 0 20px;
+        }
+        .campo-verificacion label {
+            color: #8a90a6;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }
+        #periodo_verificacion {
+            background-color: #0a0c14;
+            border: 1px solid #232736;
+            border-radius: 20px;
+            padding: 14px;
+            text-align: center;
+            font-weight: bold;
+            color: #d4af37;
+            font-size: 0.9rem;
+        }
+
+        #alerta_h6 {
+            margin-top: 15px;
+        }
+        .alert-h6-activa {
+            background-color: #a1220a;
+            border-left: 6px solid #ff5555;
+            padding: 12px;
+            border-radius: 18px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem;
+            text-align: center;
+            box-shadow: 0 0 12px rgba(255, 80, 80, 0.3);
+        }
+
+        .grid-resultados-cierre {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+            margin-bottom: 45px;
+        }
+        .panel-kpis, .panel-cierre {
+            background-color: #11131c;
+            border: 1px solid #232736;
+            border-radius: 28px;
+            padding: 24px 26px;
+        }
+        .kpi-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #232736;
+            font-size: 1rem;
+        }
+        .kpi-line span:first-child {
+            color: #8a90a6;
+        }
+        .kpi-line span:last-child {
+            font-weight: 700;
+            color: #d4af37;
+        }
+        .status-positive {
+            color: #00ff66 !important;
+            text-shadow: 0 0 3px rgba(0,255,102,0.3);
+        }
+        .status-negative {
+            color: #ff3333 !important;
+            text-shadow: 0 0 2px rgba(255,51,51,0.3);
+        }
+        .kpi-display {
+            font-weight: 800;
+        }
+
+        .btn-print {
+            background-color: #000000;
+            border: 2px solid #d4af37;
+            color: #d4af37;
+            padding: 14px 20px;
+            border-radius: 40px;
+            font-weight: bold;
+            font-size: 1rem;
+            width: 100%;
+            margin-top: 25px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+        .btn-print:hover {
+            background-color: #d4af37;
+            color: #000000;
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.6);
+        }
+
+        .terminal-rosa {
+            background-color: #ffffff;
+            border-radius: 32px;
+            padding: 40px 38px;
+            font-family: 'Times New Roman', 'Georgia', serif;
+            color: #000000;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.4);
+            margin-top: 20px;
+        }
+        .mini-logo-terminal {
+            text-align: center;
+            margin-bottom: 12px;
+        }
+        .mini-logo-terminal img {
+            max-width: 80px;
+            height: auto;
+        }
+        .contrato-titulo {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 12px 0 20px;
+            border-bottom: 3px solid #b8860b;
+            display: inline-block;
+            width: 100%;
+            letter-spacing: 1px;
+        }
+        .clausula {
+            margin: 18px 0;
+            line-height: 1.45;
+            text-align: justify;
+        }
+        .firma-linea {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 35px;
+            flex-wrap: wrap;
+        }
+        .firma-item {
+            width: 45%;
+            border-top: 1px solid #000;
+            padding-top: 10px;
+            margin-top: 15px;
+        }
+        .sello-hora {
+            text-align: right;
+            font-size: 0.7rem;
+            font-family: monospace;
+            margin-top: 40px;
+            padding-top: 15px;
+            border-top: 1px dashed #aaa;
+        }
+        .editable-text {
+            background: transparent;
+            border: none;
+            border-bottom: 1px dashed #aaa;
+            font-family: inherit;
+            font-size: inherit;
+            color: #000;
+            display: inline-block;
+            min-width: 120px;
+            padding: 0 4px;
+        }
+        .editable-text:focus {
+            outline: none;
+            border-bottom: 1px solid #d4af37;
+            background: #fef7e0;
+        }
+        .market-bar {
+            background: #0c0f1a;
+            border-radius: 24px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            border: 1px solid #2a2f3f;
+        }
+        .dynamic-date {
+            font-family: monospace;
+            color: #8a90a6;
+            font-size: 0.7rem;
+            text-align: right;
+            margin-top: 5px;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            .logo-central,
+            .grid-3-columnas,
+            .grid-resultados-cierre,
+            .btn-print,
+            .grupo-botones,
+            .botonera,
+            .btn-enlace,
+            #alerta_h6,
+            .checkbox-line,
+            .changelog-premium {
+                display: none !important;
+            }
+            .terminal-rosa {
+                display: block !important;
+                box-shadow: none;
+                padding: 0.3in;
+                margin: 0 auto;
+                width: 100%;
+                background: white;
+            }
+            .war-room-container {
+                padding: 0;
+                margin: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            .grid-3-columnas {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            .grid-resultados-cierre {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            .changelog-premium {
+                font-size: 0.6rem;
+                padding: 6px 12px;
+                bottom: 12px;
+                left: 12px;
+            }
+        }
+
+        #financiamientoCampos {
+            background: #0c0e17;
+            border-radius: 20px;
+            padding: 12px;
+            margin-top: 12px;
+        }
+    </style>
+</head>
+<body>
+<div class="war-room-container">
+    <div class="logo-central">
+        <img src="logo.png" alt="Cuerna Garage Logo" loading="eager">
+    </div>
+
+    <div class="changelog-premium">
+        🔧 SOFTWARE VER: 37.0 (PREDICTOR_UNIVERSAL_LIBRO_AZUL)
+        <div class="tooltip-log">
+            📋 HISTORIAL DE VERSIONES:<br>
+            v35.0: Interfaz Black Edition + 27 herramientas<br>
+            v35.1: Links SAT/INE integrados + Terminal Rosa<br>
+            v36.0: Motor Universal de Depreciación + Valor Referencia<br>
+            v37.0: Predictor por Segmento (Sedán, SUV, Pickup, Premium) + Devaluación 7.8% anual compuesto + Edición manual total
+        </div>
+    </div>
+
+    <div class="grid-3-columnas">
+        <!-- COLUMNA 1: CAPTURA + SEGMENTO -->
+        <div class="columna">
+            <h3>📡 CAPTURA CENTRAL & MECÁNICA</h3>
+            <div class="campo"><label>🚗 Vehículo / Modelo:</label><input type="text" id="vehiculo" placeholder="Ej. Hyundai Creta, BMW Serie 3, Ford Mustang" oninput="ejecutarCalculos()"></div>
+            <div class="campo"><label>📅 Año Modelo:</label><input type="number" id="anioModelo" placeholder="2021" oninput="ejecutarCalculos()"></div>
+            <div class="campo"><label>🔘 Segmento / Categoría del Vehículo (Libro Azul):</label>
+                <select id="segmento_auto" onchange="ejecutarCalculos()">
+                    <option value="SEDAN_POPULAR">Sedán / Hatchback Popular (Ej: Aveo, Versa, March, Vento)</option>
+                    <option value="SUV_MEDIA" selected>SUV Familiar / Crossover (Ej: Creta, Seltos, HR-V, Tucson, RAV4)</option>
+                    <option value="PICKUP_TRUCK">Pickup / Camioneta de Trabajo (Ej: Hilux, Frontier, Lobo, Ram)</option>
+                    <option value="PREMIUM_LUJO">Premium / Deportivo / Alta Gama (Ej: Porsche, BMW, Mercedes, Audi)</option>
+                </select>
+            </div>
+            <div class="campo"><label>🔢 Último Dígito de Placa:</label><input type="text" id="ultimoDigitoPlaca" maxlength="1" placeholder="Ej. 7" oninput="ejecutarCalculos()"></div>
+            <div class="campo"><label>🔑 VIN (17 caracteres):</label><input type="text" id="vin" maxlength="17" placeholder="17 caracteres" oninput="ejecutarCalculos()"></div>
+            <div class="campo"><label>📋 Placas completas:</label><input type="text" id="placas" placeholder="ABC-1234" oninput="ejecutarCalculos()"></div>
+            <div class="checkbox-line"><input type="checkbox" id="dsgDanada" onchange="ejecutarCalculos()"><label>⚠️ Caja DSG Dañada (-$15,000) [H22]</label></div>
+            <div class="checkbox-line"><input type="checkbox" id="cuerpoAceleracion" onchange="ejecutarCalculos()"><label>⚠️ Cuerpo de Aceleración (-$12,000) [H23]</label></div>
+        </div>
+
+        <!-- COLUMNA 2: EVALUACIÓN FINANCIERA -->
+        <div class="columna">
+            <h3>💰 EVALUACIÓN FINANCIERA</h3>
+            <div class="market-bar">
+                <div class="dynamic-date" id="fechaMercadoLabel">Cargando...</div>
+            </div>
+            <div class="campo"><label>📈 Guía Autométrica Venta Base ($) [H3]:</label><input type="number" id="venta_base" value="490000" step="1000" oninput="ejecutarCalculos()"></div>
+            <div class="campo"><label>📉 Castigo Anual de Compra (%):</label><input type="number" id="castigo_anual" value="10" step="1" oninput="ejecutarCalculos()"></div>
+            <div class="campo"><label>📊 Margen Bruto de Reventa (%):</label><input type="number" id="margen_reventa" value="15" step="1" oninput="ejecutarCalculos()"></div>
+            <div class="campo"><label>🔧 Taller Hojalatería ($) [H5]:</label><input type="number" id="tallerHojalateria" value="0" step="1000" oninput="ejecutarCalculos()"></div>
+            <div class="campo"><label>🎨 Taller Estética ($) [H6]:</label><input type="number" id="tallerEstetica" value="0" step="1000" oninput="ejecutarCalculos()"></div>
+            <div class="campo"><label>🚛 Taller Neumáticos ($) [H7]:</label><input type="number" id="tallerNeumaticos" value="0" step="500" oninput="ejecutarCalculos()"></div>
+            <div id="alerta_h6"></div>
+        </div>
+
+        <!-- COLUMNA 3: RADARES Y FINANCIAMIENTO -->
+        <div class="columna">
+            <h3>📡 RADARES & LEGAL</h3>
+            <div class="campo-verificacion"><label>📆 CALENDARIO VERIFICACIÓN MEGALÓPOLIS 2026:</label><div id="periodo_verificacion">Inserte Dígito</div></div>
+            <div class="grupo-botones"><label>🔗 Pasarelas de Adeudos:</label><div class="botonera"><a href="https://cdmx.gob.mx" class="btn-enlace" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, '_blank', 'noopener,noreferrer'); return false;">CDMX [H15]</a><a href="https://edomex.gob.mx" class="btn-enlace" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, '_blank', 'noopener,noreferrer'); return false;">EDOMEX [H16]</a><a href="https://puebla.gob.mx" class="btn-enlace" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, '_blank', 'noopener,noreferrer'); return false;">PUEBLA [H17]</a><a href="https://morelos.gob.mx" class="btn-enlace" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, '_blank', 'noopener,noreferrer'); return false;">MORELOS [H18]</a></div></div>
+            <div class="grupo-botones"><label>🔍 Peritajes Oficiales Anti-Fraude:</label><div class="botonera"><a href="https://sat.gob.mx" class="btn-enlace" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, '_blank', 'noopener,noreferrer'); return false;">SAT CFDI [H19]</a><a href="https://www.gob.mx" class="btn-enlace" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, '_blank', 'noopener,noreferrer'); return false;">REPUVE [H20]</a><a href="https://ine.mx" class="btn-enlace" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, '_blank', 'noopener,noreferrer'); return false;">INE LISTA [H21]</a></div></div>
+            <div class="checkbox-line"><input type="checkbox" id="financiamientoActivo" onchange="ejecutarCalculos()"><label>💳 Activar Financiamiento Propio sin Aval</label></div>
+            <div id="financiamientoCampos" style="display:none;">
+                <div class="campo"><label>💰 Enganche Mínimo ($) (mínimo 20%):</label><input type="number" id="enganche" value="0" step="1000" oninput="ejecutarCalculos()"></div>
+                <div class="campo"><label>📆 Plazo (meses):</label>
+                    <select id="f_plazo" class="form-control" onchange="ejecutarCalculos()">
+                        <option value="12">12 meses</option>
+                        <option value="24">24 meses</option>
+                        <option value="36" selected>36 meses</option>
+                        <option value="48">48 meses</option>
+                        <option value="60">60 meses</option>
+                    </select>
+                </div>
+                <div id="mensualidadPreview" style="margin-top:12px; font-size:0.85rem;">Mensualidad: $0</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid-resultados-cierre">
+        <div class="panel-kpis"><h3>📊 MÉTRICAS EN VIVO</h3><div class="kpi-line"><span>💰 Compra Máxima Sugerida [H2]:</span><span id="compra_maxima">$0</span></div><div class="kpi-line"><span>🏷️ Precio de Reventa al Público:</span><span id="precio_reventa">$0</span></div><div class="kpi-line"><span>📈 Margen Comercial Bruto [H4]:</span><span id="margen_comercial">$0</span></div><div class="kpi-line"><span>⚙️ Total Talleres:</span><span id="totalTalleres">$0</span></div><div class="kpi-line"><span>🔧 Total Regateos:</span><span id="totalRegateos">$0</span></div><div class="kpi-line"><span>✨ Utilidad Real Neta [H8]:</span><span id="utilidad_neta" class="kpi-display">$0</span></div></div>
+        <div class="panel-cierre"><h3>✍️ CIERRE DE OPERACIÓN</h3><div class="campo"><label>🧑 Nombre del Comprador:</label><input type="text" id="nombreComprador" placeholder="Nombre completo" oninput="actualizarContratoAutomatico()"></div><div class="campo"><label>👨‍💼 Nombre del Vendedor:</label><input type="text" id="nombreVendedor" value="Carlos Reyes-Retana" oninput="actualizarContratoAutomatico()"></div><div class="campo"><label>💵 Monto Real de Operación en Letra [H24]:</label><input type="text" id="c_monto_letra" class="form-control" placeholder="Escribe el monto en letras manualmente" oninput="actualizarPrecioLetraContrato()"></div><button class="btn-print" onclick="imprimirContrato()">🖨️ Imprimir Contrato Responsiva [H27]</button></div>
+    </div>
+
+    <div id="terminalRosa" class="terminal-rosa">
+        <div class="mini-logo-terminal"><img src="logo.png" alt="Cuerna Garage"></div>
+        <div class="contrato-titulo">CONTRATO PRIVADO DE COMPRAVENTA + CARTA RESPONSIVA</div>
+        <div id="contratoDinamico"></div>
+        <div id="selloHora" class="sello-hora"></div>
+    </div>
+</div>
+
+<script>
+    // ============== FECHA DINÁMICA (Junio 2026) ==============
+    const fechaActual = new Date();
+    const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+    const mesActualTexto = meses[fechaActual.getMonth()];
+    const añoActual = fechaActual.getFullYear();
+    document.getElementById("fechaMercadoLabel").innerHTML = `📅 Tabulador de Mercado Actualizado a: ${mesActualTexto} ${añoActual}`;
+
+    // ============== 1. MOTOR PREDICTIVO POR SEGMENTO (Libro Azul - 7.8% anual compuesto) ==============
+    const ANIO_BASE = 2026;
+    const TASA_DEPRECIACION_AZUL = 0.078; // 7.8% anual compuesto real México
+
+    // Valores base para modelo 2025/2026 (precio de auto nuevo/reciente por segmento)
+    const VALORES_BASE_SEGMENTO = {
+        "SEDAN_POPULAR": 290000,
+        "SUV_MEDIA": 490000,
+        "PICKUP_TRUCK": 650000,
+        "PREMIUM_LUJO": 1900000
+    };
+
+    function calcularValorPredictivoPorSegmento(segmento, añoModelo) {
+        let valorBase = VALORES_BASE_SEGMENTO[segmento] || 490000;
+        if (!añoModelo || isNaN(añoModelo)) return valorBase;
+        let antiguedad = ANIO_BASE - añoModelo;
+        if (antiguedad <= 0) return valorBase;
+        // Clásicos extremos (año < 1980) no se devalúan
+        if (añoModelo < 1980) return valorBase;
+        let factor = Math.pow(1 - TASA_DEPRECIACION_AZUL, antiguedad);
+        let valorDepreciado = valorBase * factor;
+        return Math.round(valorDepreciado);
+    }
+
+    function actualizarSugerenciaPorSegmento() {
+        let segmento = document.getElementById('segmento_auto').value;
+        let anioModelo = parseInt(document.getElementById('anioModelo').value);
+        let valorSugerido = calcularValorPredictivoPorSegmento(segmento, anioModelo);
+        document.getElementById('venta_base').value = valorSugerido;
+    }
+
+    // ============== 2. FUNCIONES PRINCIPALES ==============
+    let compraMaximaGlobal = 0;
+    let financiamientoActivoGlobal = false;
+
+    function actualizarVerificacionMegalopolis() {
+        let digito = document.getElementById('ultimoDigitoPlaca').value.trim();
+        let divVerif = document.getElementById('periodo_verificacion');
+        if(!digito || isNaN(parseInt(digito))) { divVerif.innerHTML = "Inserte Dígito"; return; }
+        let d = parseInt(digito);
+        let periodo = "";
+        if(d === 5 || d === 6) periodo = "🟡 PERIODO AMARILLO: Ene-Feb / Jul-Ago";
+        else if(d === 7 || d === 8) periodo = "🌸 PERIODO ROSA: Feb-Mar / Ago-Sep";
+        else if(d === 3 || d === 4) periodo = "🔴 PERIODO ROJO: Mar-Abr / Sep-Oct";
+        else if(d === 1 || d === 2) periodo = "🟢 PERIODO VERDE: Abr-May / Oct-Nov";
+        else if(d === 9 || d === 0) periodo = "🔵 PERIODO AZUL: May-Jun / Nov-Dic";
+        else periodo = "Dígito no válido";
+        divVerif.innerHTML = `📅 VERIFICACIÓN 2026: ${periodo} (dígito ${d})`;
+    }
+
+    function verificarPenalizacionH6() {
+        let placaDig = document.getElementById('ultimoDigitoPlaca').value.trim();
+        let anioStr = document.getElementById('anioModelo').value;
+        let alertDiv = document.getElementById('alerta_h6');
+        if(!placaDig || !anioStr || isNaN(parseInt(anioStr))) { alertDiv.innerHTML = ""; return false; }
+        let ultimoAnio = Math.abs(parseInt(anioStr)) % 10;
+        let valorEsperado = (ultimoAnio + 1) % 10;
+        let digitoPlacaNum = parseInt(placaDig);
+        if(!isNaN(digitoPlacaNum) && digitoPlacaNum === valorEsperado) {
+            alertDiv.innerHTML = '<div class="alert-h6-activa">⚠️ PENALIZACIÓN H6 ACTIVA: Coincidencia de Dígito Placa-Año (+7% de Castigo)</div>';
+            return true;
+        } else { alertDiv.innerHTML = ""; return false; }
+    }
+
+    function toggleFinanciamientoUI() {
+        let chk = document.getElementById('financiamientoActivo');
+        let camposDiv = document.getElementById('financiamientoCampos');
+        camposDiv.style.display = chk.checked ? 'block' : 'none';
+    }
+
+    function actualizarPrecioLetraContrato() {
+        let montoLetraVal = document.getElementById('c_monto_letra').value;
+        if(montoLetraVal === "") montoLetraVal = "________________________";
+        let precioLetraSpan = document.getElementById('p_precio_letra');
+        if(precioLetraSpan) precioLetraSpan.innerText = montoLetraVal;
+        actualizarContratoAutomatico();
+    }
+
+    function numeroALetras(num) {
+        if(num <= 0) return "CERO PESOS M.N.";
+        const unidades = ["", "UN", "DOS", "TRES", "CUATRO", "CINCO", "SEIS", "SIETE", "OCHO", "NUEVE"];
+        let entero = Math.floor(num);
+        if(entero < 10) return unidades[entero] + " PESOS M.N.";
+        return entero.toString() + " (" + (unidades[entero % 10] || "") + ") PESOS M.N.";
+    }
+
+    function ejecutarCalculos() {
+        // Actualizar sugerencia automática según segmento y año modelo (Siempre que no se edite manualmente, pero se sobreescribe la sugerencia visual)
+        actualizarSugerenciaPorSegmento();
+        
+        toggleFinanciamientoUI();
+        actualizarVerificacionMegalopolis();
+        let penalizacionActiva = verificarPenalizacionH6();
+
+        let vBase = parseFloat(document.getElementById('venta_base').value) || 350000;
+        let cAnual = parseFloat(document.getElementById('castigo_anual').value) || 10;
+        let mReventa = parseFloat(document.getElementById('margen_reventa').value) || 15;
+        let tallerH = parseFloat(document.getElementById('tallerHojalateria').value) || 0;
+        let tallerE = parseFloat(document.getElementById('tallerEstetica').value) || 0;
+        let tallerN = parseFloat(document.getElementById('tallerNeumaticos').value) || 0;
+        let dsg = document.getElementById('dsgDanada').checked ? 15000 : 0;
+        let cuerpo = document.getElementById('cuerpoAceleracion').checked ? 12000 : 0;
+        
+        let totalTalleres = tallerH + tallerE + tallerN;
+        let totalRegateos = dsg + cuerpo;
+        
+        let compraMaxima = (vBase * (1 - (cAnual / 100)) - totalTalleres - totalRegateos);
+        if (compraMaxima < 0) compraMaxima = 0;
+        if (penalizacionActiva && compraMaxima > 0) compraMaxima = compraMaxima * 0.93;
+        if (compraMaxima < 0) compraMaxima = 0;
+        
+        let precioReventa = compraMaxima * (1 + mReventa / 100);
+        let margenComercial = vBase - compraMaxima;
+        let utilidadNeta = margenComercial - totalTalleres;
+
+        compraMaximaGlobal = compraMaxima;
+        financiamientoActivoGlobal = document.getElementById('financiamientoActivo').checked;
+
+        // ACTUALIZACIÓN DEL ENGANCHE MÍNIMO EN VIVO (20% REAL)
+        if (financiamientoActivoGlobal && compraMaxima > 0) {
+            let engancheCorrecto = Math.round(compraMaxima * 0.20);
+            let engancheInput = document.getElementById('enganche');
+            if (engancheInput) {
+                let currentVal = parseFloat(engancheInput.value);
+                if (isNaN(currentVal) || currentVal === 0 || currentVal !== engancheCorrecto) {
+                    engancheInput.value = engancheCorrecto;
+                }
+            }
+        }
+
+        document.getElementById('compra_maxima').innerText = '$' + compraMaxima.toLocaleString('es-MX', {minimumFractionDigits: 2});
+        document.getElementById('precio_reventa').innerText = '$' + precioReventa.toLocaleString('es-MX', {minimumFractionDigits: 2});
+        document.getElementById('margen_comercial').innerText = '$' + margenComercial.toLocaleString('es-MX', {minimumFractionDigits: 2});
+        document.getElementById('totalTalleres').innerHTML = '$' + totalTalleres.toLocaleString('es-MX', {minimumFractionDigits: 2});
+        document.getElementById('totalRegateos').innerHTML = '$' + totalRegateos.toLocaleString('es-MX', {minimumFractionDigits: 2});
+        
+        let kpiUtilidad = document.getElementById('utilidad_neta');
+        kpiUtilidad.innerText = '$' + utilidadNeta.toLocaleString('es-MX', {minimumFractionDigits: 2});
+        kpiUtilidad.className = "kpi-display " + (utilidadNeta < 0 ? "status-negative" : "status-positive");
+        
+        let montoLetraField = document.getElementById('c_monto_letra');
+        if(montoLetraField && (montoLetraField.value.trim() === "" || montoLetraField.value === "Escribe el monto en letras manualmente")) {
+            if(compraMaxima > 0) {
+                montoLetraField.value = numeroALetras(compraMaxima);
+            } else {
+                montoLetraField.value = "CERO PESOS M.N.";
+            }
+        }
+        
+        let precioNumSpan = document.getElementById('p_precio_num');
+        if(precioNumSpan) precioNumSpan.innerText = compraMaxima.toLocaleString('es-MX', {minimumFractionDigits: 2});
+        
+        let precioLetraSpan = document.getElementById('p_precio_letra');
+        if(precioLetraSpan) precioLetraSpan.innerText = montoLetraField.value;
+        
+        let plazoMeses = parseInt(document.getElementById('f_plazo').value) || 36;
+        let mensualidadPreview = document.getElementById('mensualidadPreview');
+        if(financiamientoActivoGlobal && compraMaxima > 0) {
+            let enganche = parseFloat(document.getElementById('enganche').value) || 0;
+            let minimoEnganche = compraMaxima * 0.20;
+            let engancheEfectivo = (enganche < minimoEnganche) ? minimoEnganche : enganche;
+            let saldo = compraMaxima - engancheEfectivo;
+            let interesMensual = 0.02;
+            let mensualidad = 0;
+            if(saldo > 0 && plazoMeses > 0) {
+                mensualidad = (saldo * interesMensual * Math.pow(1+interesMensual, plazoMeses)) / (Math.pow(1+interesMensual, plazoMeses)-1);
+                if(isNaN(mensualidad)) mensualidad = 0;
+            }
+            mensualidadPreview.innerHTML = `💰 Mensualidad fija (2% interés): $${mensualidad.toFixed(2)} | Enganche mínimo 20%: $${minimoEnganche.toFixed(2)} | Plazo: ${plazoMeses} meses`;
+        } else if(financiamientoActivoGlobal) mensualidadPreview.innerHTML = "❌ Monto negativo o nulo, financiamiento no aplicable";
+        else mensualidadPreview.innerHTML = "Financiamiento desactivado";
+        
+        actualizarContratoAutomatico();
+    }
+    
+    function actualizarContratoAutomatico() {
+        let vehiculo = document.getElementById('vehiculo').value || "NO ESPECIFICADO";
+        let anio = document.getElementById('anioModelo').value || "----";
+        let vin = document.getElementById('vin').value || "NO REGISTRA";
+        let placasCompletas = document.getElementById('placas').value || "SIN PLACAS";
+        let comprador = document.getElementById('nombreComprador').value || "____________________";
+        let vendedor = document.getElementById('nombreVendedor').value || "Carlos Reyes-Retana";
+        let montoLetraManual = document.getElementById('c_monto_letra').value;
+        
+        let financiamientoHtml = "";
+        if(financiamientoActivoGlobal && compraMaximaGlobal > 0) {
+            let enganche = parseFloat(document.getElementById('enganche').value) || 0;
+            let plazo = document.getElementById('f_plazo').value;
+            let mensualidadRaw = document.getElementById('mensualidadPreview').innerText;
+            financiamientoHtml = `<div class="clausula"><strong>CUARTA CLÁUSULA (FINANCIAMIENTO PROPIO SIN AVAL).</strong> El comprador paga un enganche de $${enganche.toFixed(2)} M.N. (mínimo 20% del valor). El saldo restante se cubrirá en ${plazo} mensualidades fijas con un interés del 2% mensual sobre saldo insoluto. Detalle: ${mensualidadRaw}. El vendedor conserva título de propiedad hasta la liquidación total.</div>`;
+        }
+        
+        let contenido = `
+            <div class="clausula"><strong>PRIMERA. IDENTIFICACIÓN DEL VEHÍCULO.</strong> El vehículo marca <span contenteditable="true" class="editable-text" id="p_auto">${vehiculo}</span>, modelo <span contenteditable="true" class="editable-text" id="p_anio">${anio}</span>, número VIN <span contenteditable="true" class="editable-text" id="p_vin">${vin}</span>, placas <span contenteditable="true" class="editable-text" id="p_placas">${placasCompletas}</span>, es de procedencia lícita.</div>
+            <div class="clausula"><strong>SEGUNDA. PRECIO Y FORMA DE PAGO.</strong> El precio total pactado es de $<span id="p_precio_num" class="editable-text" contenteditable="true">${compraMaximaGlobal.toLocaleString('es-MX', {minimumFractionDigits: 2})}</span> M.N. (<span id="p_precio_letra" class="editable-text" contenteditable="true">${montoLetraManual}</span>). El COMPRADOR declara haber recibido el vehículo a su entera satisfacción.</div>
+            <div class="clausula"><strong>CLÁUSULA DE PROCEDENCIA LÍCITA.</strong> El VENDEDOR declara bajo protesta de decir verdad que el vehículo no adeuda multas, no tiene reporte de robo, y se encuentra libre de gravámenes.</div>
+            <div class="clausula"><strong>CLÁUSULA DE DESLINDE POR VICIOS OCULTOS [H26].</strong> El COMPRADOR acepta el vehículo en el estado mecánico y estético que guarda, eximiendo al VENDEDOR de cualquier responsabilidad por vicios ocultos posteriores a la entrega.</div>
+            ${financiamientoHtml}
+            <div class="firma-linea">
+                <div class="firma-item">COMPRADOR: <br><span contenteditable="true" class="editable-text" id="firmaComprador">${comprador}</span></div>
+                <div class="firma-item">VENDEDOR: <br><span contenteditable="true" class="editable-text" id="firmaVendedor">${vendedor}</span></div>
+            </div>
+        `;
+        document.getElementById('contratoDinamico').innerHTML = contenido;
+        
+        document.getElementById('p_auto')?.addEventListener('blur', function(){ document.getElementById('vehiculo').value = this.innerText; ejecutarCalculos(); });
+        document.getElementById('p_anio')?.addEventListener('blur', function(){ document.getElementById('anioModelo').value = this.innerText; ejecutarCalculos(); });
+        document.getElementById('p_vin')?.addEventListener('blur', function(){ document.getElementById('vin').value = this.innerText; ejecutarCalculos(); });
+        document.getElementById('p_placas')?.addEventListener('blur', function(){ document.getElementById('placas').value = this.innerText; ejecutarCalculos(); });
+        document.getElementById('p_precio_num')?.addEventListener('blur', function(){ let newVal = parseFloat(this.innerText.replace(/[^0-9.-]/g, '')); if(!isNaN(newVal) && newVal > 0) ejecutarCalculos(); });
+        document.getElementById('p_precio_letra')?.addEventListener('blur', function(){ document.getElementById('c_monto_letra').value = this.innerText; });
+        document.getElementById('firmaComprador')?.addEventListener('blur', function(){ document.getElementById('nombreComprador').value = this.innerText; actualizarContratoAutomatico(); });
+        document.getElementById('firmaVendedor')?.addEventListener('blur', function(){ document.getElementById('nombreVendedor').value = this.innerText; actualizarContratoAutomatico(); });
+    }
+    
+    function actualizarSelloPenal() {
+        let now = new Date();
+        let formatted = `${now.getDate().toString().padStart(2,'0')}/${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getFullYear()} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}:${now.getSeconds().toString().padStart(2,'0')}`;
+        let selloDiv = document.getElementById('selloHora');
+        if(selloDiv) selloDiv.innerHTML = `🕒 SELLO PENAL DE HORA EXACTA [H25]: ${formatted}`;
+    }
+    
+    function imprimirContrato() {
+        window.print();
+    }
+    
+    window.addEventListener('load', () => {
+        toggleFinanciamientoUI();
+        actualizarSugerenciaPorSegmento();
+        ejecutarCalculos();
+        setInterval(actualizarSelloPenal, 1000);
+        actualizarSelloPenal();
+        document.getElementById('ultimoDigitoPlaca').addEventListener('input', () => { actualizarVerificacionMegalopolis(); ejecutarCalculos(); });
+        document.getElementById('anioModelo').addEventListener('input', () => { actualizarSugerenciaPorSegmento(); ejecutarCalculos(); });
+        document.getElementById('segmento_auto').addEventListener('change', () => { actualizarSugerenciaPorSegmento(); ejecutarCalculos(); });
+        document.getElementById('financiamientoActivo').addEventListener('change', () => ejecutarCalculos());
+        document.getElementById('f_plazo').addEventListener('change', () => ejecutarCalculos());
+    });
+</script>
+</body>
+</html>
