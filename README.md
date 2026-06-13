@@ -1,0 +1,659 @@
+[index.html](https://github.com/user-attachments/files/28917929/index.html)
+<fsWrite>
+<path>C:\Users\alexr\Downloads\cuerna-garage\index.html</path>
+<content><!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuerna Garage - Compra, Venta, Consignación y Gestoría Vehicular | Cuernavaca</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:#0a0a0a;color:#fff;font-family:'Montserrat',sans-serif;overflow-x:hidden}
+::selection{background:#B87333;color:#fff}
+::-webkit-scrollbar{width:7px}
+::-webkit-scrollbar-track{background:#0a0a0a}
+::-webkit-scrollbar-thumb{background:#B87333;border-radius:4px}
+input[type="range"]{-webkit-appearance:none;height:6px;background:rgba(184,115,51,0.2);border-radius:3px;outline:none}
+input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#B87333;cursor:pointer;border:3px solid #0a0a0a}
+select option{background:#161616;color:#fff}
+a{text-decoration:none;color:inherit}
+button{font-family:'Montserrat',sans-serif}
+.nav-link:hover{color:#B87333!important}
+.nav-cta:hover{background:#9a6028!important;transform:translateY(-2px)}
+@keyframes bounceDown{0%,100%{transform:translateY(0)}50%{transform:translateY(12px)}}
+.card-hover{transition:all 0.4s ease;cursor:pointer}
+.card-hover:hover{transform:translateY(-6px);box-shadow:0 16px 50px rgba(184,115,51,0.3)}
+.btn-primary{background:#B87333;color:#fff;border:none;padding:12px 28px;border-radius:4px;font-weight:700;cursor:pointer;transition:all 0.3s;display:inline-flex;align-items:center;gap:8px}
+.btn-primary:hover{background:#9a6028;transform:translateY(-2px)}
+.btn-outline{background:transparent;color:#fff;border:2px solid #B87333;padding:12px 28px;border-radius:4px;font-weight:700;cursor:pointer;transition:all 0.3s;display:inline-flex;align-items:center;gap:8px}
+.btn-outline:hover{background:#B87333;transform:translateY(-2px)}
+.btn-whatsapp{background:#25D366;color:#fff;padding:12px 28px;border-radius:4px;font-weight:700;cursor:pointer;transition:all 0.3s;display:inline-flex;align-items:center;gap:8px;border:none}
+.btn-whatsapp:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(37,211,102,0.3)}
+@media(max-width:900px){.desktop-nav{display:none!important}.mobile-menu-btn{display:block!important}}
+@media(min-width:901px){.mobile-menu-btn{display:none!important}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel" data-presets="react">
+const { useState, useEffect, useCallback, useRef } = React;
+
+const LOGO_URL = "https://res.cloudinary.com/dojevq7zl/image/upload/f_auto,q_auto/CAR_BUYING_SELLING_edited_a4vwdr";
+const PRIMARY = "#B87333";
+const PRIMARY_DARK = "#9a6028";
+const PRIMARY_TINT = "rgba(184,115,51,0.12)";
+const WHATSAPP = "5217774539174";
+const ADMIN_PASSWORD = "cuerna2025";
+const SOCIAL = {
+whatsapp: "https://wa.me/" + WHATSAPP,
+whatsappCat: "https://wa.me/c/" + WHATSAPP,
+facebook: "https://www.facebook.com/marketplace/you/selling",
+instagram: "https://www.instagram.com/cuernagarage/?hl=es",
+tiktok: "https://www.tiktok.com/@cuernagarage",
+email: "mailto:cuernagarage@gmail.com"
+};
+const TEAM_PHOTO = "https://image.qwenlm.ai/public_source/ca21dc10-c9f1-4857-93e0-f646a4061a62/13414ca92-3916-4945-aba6-a8d4e274a1fe.png";
+const SALESMAN_PHOTO = "https://image.qwenlm.ai/public_source/ca21dc10-c9f1-4857-93e0-f646a4061a62/10157fc97-23d5-47ed-a0aa-1362b30ce302.png";
+const KEYS_PHOTO = "https://image.qwenlm.ai/public_source/ca21dc10-c9f1-4857-93e0-f646a4061a62/1b46d0725-a300-4301-ae14-c6a4311e5b32.png";
+const HERO_BG = "https://image.qwenlm.ai/public_source/ca21dc10-c9f1-4857-93e0-f646a4061a62/1a7f3fcca-47fa-4b71-89a8-b569460f3aa8.png";
+const DEFAULT_CARS = [
+{ id: 1, nombre: "Honda Civic 2020", anio: "2020", precio: "$285,000", categoria: "Sedán", kilometros: "45,000 km", transmision: "Automática", motor: "2.0L", descripcion: "Único dueño, servicio de agencia, factura original. Motor 2.0L en excelentes condiciones, interiores de piel, pantalla táctil, cámara de reversa.", imagenes: ["https://image.qwenlm.ai/public_source/ca21dc10-c9f1-4857-93e0-f646a4061a62/14f1489d4-9b62-4d32-a9b1-86fb60c56af1.png"], video: "", estado: "disponible", destacado: true },
+{ id: 2, nombre: "Toyota RAV4 2021", anio: "2021", precio: "$420,000", categoria: "SUV", kilometros: "32,000 km", transmision: "Automática", motor: "2.5L", descripcion: "SUV familiar, muy buen estado, todos los servicios al corriente.", imagenes: ["https://image.qwenlm.ai/public_source/ca21dc10-c9f1-4857-93e0-f646a4061a62/10a68d514-030d-4a2b-adab-33915a420690.png"], video: "", estado: "disponible", destacado: true },
+{ id: 3, nombre: "Nissan Kicks 2022", anio: "2022", precio: "$310,000", categoria: "SUV", kilometros: "28,000 km", transmision: "CVT", motor: "1.6L", descripcion: "Seminuevo con pocos kilómetros, equipo completo.", imagenes: ["https://image.qwenlm.ai/public_source/ca21dc10-c9f1-4857-93e0-f646a4061a62/1dd0eaa63-b38b-4503-8098-62b1ee45e470.png"], video: "", estado: "disponible", destacado: false },
+{ id: 4, nombre: "Chevrolet Silverado 2020", anio: "2020", precio: "$520,000", categoria: "Pickup", kilometros: "40,000 km", transmision: "Automática", motor: "5.3L V8", descripcion: "Pickup doble cabina, 4x4.", imagenes: ["https://image.qwenlm.ai/public_source/ca21dc10-c9f1-4857-93e0-f646a4061a62/10489b899-5e9a-47bb-a884-9ff52d592765.png"], video: "", estado: "disponible", destacado: true },
+{ id: 5, nombre: "Volkswagen Jetta 2021", anio: "2021", precio: "$265,000", categoria: "Sedán", kilometros: "35,000 km", transmision: "Automática", motor: "1.4L Turbo", descripcion: "Turbo, buen rendimiento.", imagenes: ["https://image.qwenlm.ai/public_source/ca21dc10-c9f1-4857-93e0-f646a4061a62/1d1f92782-2522-4a3b-95be-6d63fe25c9b6.png"], video: "", estado: "disponible", destacado: false },
+{ id: 6, nombre: "Chevrolet Aveo 2019", anio: "2019", precio: "$195,000", categoria: "Sedán", kilometros: "55,000 km", transmision: "Manual", motor: "1.5L", descripcion: "Económico y confiable.", imagenes: ["https://image.qwenlm.ai/public_source/ca21dc10-c9f1-4857-93e0-f646a4061a62/1a1c73b7e-a2d0-4963-8a64-cdac934a0088.png"], video: "", estado: "vendido", destacado: false }
+];
+const TESTIMONIALS = [
+{ name: "Roberto Martínez", car: "Honda Civic 2020", text: "Excelente servicio.", rating: 5, avatar: "RM" },
+{ name: "María González", car: "Toyota RAV4 2021", text: "Proceso muy sencillo.", rating: 5, avatar: "MG" },
+{ name: "Carlos Herrera", car: "Chevrolet Silverado 2020", text: "El trato fue increíble.", rating: 5, avatar: "CH" }
+];
+const FAQS = [
+{ q: "¿Cuál es el enganche mínimo?", a: "El 20%. Hey Banco de Banregio." },
+{ q: "¿Qué incluye el financiamiento?", a: "Seguro de vida, desempleo y auto." },
+{ q: "¿Hasta cuántos meses?", a: "60 meses." },
+{ q: "¿Qué trámites de gestoría hacen?", a: "Placas, cambio de propietario, verificación, tenencias." },
+{ q: "¿Aceptan autos a cuenta?", a: "Sí." }
+];
+const GESTORIA = [
+{ numero:"1", titulo:"Trámites de Identificación y Placas", items:[
+{t:"Alta y baja de placas", d:"Registra vehículos nuevos ante el padrón vehicular."},
+{t:"Reemplacamiento", d:"Cambio periódico de láminas."},
+{t:"Permisos provisionales", d:"Autorizaciones temporales para circular sin placas."}
+]},
+{ numero:"2", titulo:"Legalidad, Compraventa y Propiedad", items:[
+{t:"Cambio de propietario", d:"Traspaso legal cuando cambia de dueño."},
+{t:"Informes de dominio", d:"Revisa antecedentes de robo, embargos o adeudos."},
+{t:"Denuncias de venta", d:"Deslinda responsabilidades al vendedor."},
+{t:"Refacturaciones", d:"Reposición de factura en caso de pérdida."}
+]},
+{ numero:"3", titulo:"Pagos, Control Fiscal y Verificación", items:[
+{t:"Liquidación de adeudos", d:"Paga multas, recargos y fotomultas."},
+{t:"Tenencias y refrendos", d:"Impuestos anuales obligatorios."},
+{t:"Verificación vehicular", d:"Control ambiental autorizado."}
+]}
+];
+function Navbar({ onAdmin, isAdmin }) {
+const [open, setOpen] = useState(false);
+const scrollTo = useCallback((id) => {
+const el = document.getElementById(id);
+if (el) el.scrollIntoView({ behavior: "smooth" });
+}, []);
+const links = [
+{ l: "Inicio", h: "inicio" }, { l: "Nosotros", h: "nosotros" },
+{ l: "Servicios", h: "servicios" }, { l: "Gestoría", h: "gestoria" },
+{ l: "Financiamiento", h: "financiamiento" }, { l: "Inventario", h: "inventario" },
+{ l: "Marketplace", h: "marketplace" }, { l: "Contacto", h: "contacto" }
+];
+return (
+<>
+<nav style={{ position:"fixed",top:0,left:0,right:0,zIndex:1000,background:"rgba(8,8,8,0.98)",borderBottom:"1px solid " + PRIMARY_TINT }}>
+<div style={{display:"flex",justifyContent:"center",padding:"8px 20px"}}>
+<a href="#inicio" onClick={(e)=>{e.preventDefault();scrollTo("inicio");}}>
+<img src={LOGO_URL} alt="Cuerna Garage" style={{height:"64px",width:"auto",objectFit:"contain"}} draggable={false} />
+</a>
+</div>
+<div className="desktop-nav" style={{display:"flex",justifyContent:"center",alignItems:"center",padding:"10px 15px",gap:"14px",flexWrap:"wrap"}}>
+{links.map((l)=>(<a key={l.l} href={"#" + l.h} onClick={(e)=>{e.preventDefault();scrollTo(l.h);}} className="nav-link" style={{color:"#ddd",fontSize:"11px",letterSpacing:"1.5px",textTransform:"uppercase",fontWeight:600}}>{l.l}</a>))}
+<a href={SOCIAL.whatsappCat} target="_blank" rel="noreferrer" className="nav-cta" style={{background:PRIMARY,color:"#fff",padding:"6px 14px",borderRadius:4,fontWeight:700,fontSize:"11px",letterSpacing:"1px",textDecoration:"none"}}>💬 Cotizar</a>
+<button onClick={onAdmin} style={{background:isAdmin?PRIMARY:"transparent",color:isAdmin?"#fff":PRIMARY,border:"1px solid " + PRIMARY,padding:"6px 12px",borderRadius:4,fontSize:"11px",fontWeight:600,cursor:"pointer"}}>{isAdmin?"":""} Admin</button>
+</div>
+<button className="mobile-menu-btn" onClick={()=>setOpen(!open)} style={{display:"none",position:"absolute",top:"14px",right:"16px",background:"none",border:"1px solid " + PRIMARY,color:"#fff",padding:"6px 12px",borderRadius:4,fontSize:18,cursor:"pointer"}}>{open?"✕":""}</button>
+</nav>
+{open && (
+<div style={{position:"fixed",top:0,left:0,right:0,bottom:0,background:"rgba(8,8,8,0.98)",zIndex:999,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:22}}>
+<button onClick={()=>setOpen(false)} style={{position:"absolute",top:"16px",right:"24px",background:"none",border:"none",color:"#fff",fontSize:30,cursor:"pointer"}}>✕</button>
+{links.map((l)=>(<a key={l.l} href={"#" + l.h} onClick={(e)=>{e.preventDefault();scrollTo(l.h);setOpen(false);}} style={{color:"#fff",fontSize:20,fontWeight:600,letterSpacing:2}}>{l.l}</a>))}
+</div>
+)}
+</>
+);
+}
+function Hero() {
+const scrollTo = useCallback((id) => {
+const el = document.getElementById(id);
+if (el) el.scrollIntoView({ behavior: "smooth" });
+}, []);
+return (
+<section id="inicio" style={{minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",position:"relative",overflow:"hidden",paddingTop:"130px"}}>
+<div style={{position:"absolute",inset:0,backgroundImage:"url(" + HERO_BG + ")",backgroundSize:"cover",backgroundPosition:"center top"}}/>
+<div style={{position:"absolute",inset:0,background:"linear-gradient(180deg,rgba(8,8,8,0.3) 0%,rgba(8,8,8,0.55) 50%,rgba(8,8,8,0.95) 100%)"}}/>
+<div style={{position:"relative",zIndex:2,textAlign:"center",maxWidth:900,padding:"0 24px"}}>
+<div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:16,marginBottom:20}}>
+<div style={{width:50,height:1,background:PRIMARY}}/><span style={{color:PRIMARY,fontSize:12,letterSpacing:5,fontWeight:700}}>BUYING & SELLING</span><div style={{width:50,height:1,background:PRIMARY}}/>
+</div>
+<h1 style={{color:"#fff",fontSize:"clamp(26px,5vw,44px)",fontWeight:300,lineHeight:1.3,marginBottom:8}}>Tu próximo auto te está esperando</h1>
+<h1 style={{color:"#fff",fontSize:"clamp(36px,7vw,72px)",fontWeight:900,fontFamily:"'Playfair Display',serif",lineHeight:1,marginBottom:24}}>CUERNA <span style={{color:PRIMARY}}>GARAGE</span></h1>
+<p style={{color:"#bbb",fontSize:"clamp(14px,1.8vw,17px)",maxWidth:580,margin:"0 auto 30px",lineHeight:1.7}}>Autos seminuevos verificados, gestoría vehicular integral y financiamiento accesible con Hey Banco de Banregio.</p>
+<div style={{display:"flex",gap:14,justifyContent:"center",flexWrap:"wrap"}}>
+<a href={SOCIAL.whatsappCat} target="_blank" rel="noreferrer" className="btn-whatsapp" style={{border:"2px solid #25D366"}}>💬 COTIZA POR WHATSAPP</a>
+<a href="#inventario" onClick={(e)=>{e.preventDefault();scrollTo("inventario");}} className="btn-outline">VER INVENTARIO</a>
+</div>
+</div>
+<div style={{marginTop:44,color:PRIMARY,fontSize:20,animation:"bounceDown 2s infinite"}}>⌄</div>
+</section>
+);
+}
+function StatsBar() {
+const stats = [{num:"350+",label:"Autos Vendidos"},{num:"10+",label:"Años de Experiencia"},{num:"98%",label:"Clientes Satisfechos"},{num:"50+",label:"Autos Disponibles"}];
+return (
+<section style={{background:"linear-gradient(135deg,#141414 0%,#0a0a0a 100%)",padding:"40px 30px",borderTop:"1px solid " + PRIMARY_TINT,borderBottom:"1px solid " + PRIMARY_TINT}}>
+<div style={{maxWidth:1200,margin:"0 auto",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(180px,1fr))",gap:28}}>
+{stats.map((s,i)=>(<div key={i} style={{textAlign:"center"}}><div style={{color:PRIMARY,fontSize:"clamp(26px,4vw,40px)",fontWeight:900,fontFamily:"'Playfair Display',serif"}}>{s.num}</div><div style={{color:"#777",fontSize:12,letterSpacing:2,textTransform:"uppercase",marginTop:4}}>{s.label}</div></div>))}
+</div>
+</section>
+);
+}
+function AboutSection() {
+return (
+<section id="nosotros" style={{padding:"90px 30px",background:"#0a0a0a"}}>
+<div style={{maxWidth:1200,margin:"0 auto",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))",gap:50,alignItems:"center"}}>
+<div style={{position:"relative"}}>
+<img src={TEAM_PHOTO} alt="Equipo" style={{width:"100%",borderRadius:6,border:"1px solid " + PRIMARY_TINT}}/>
+<div style={{position:"absolute",bottom:-14,right:-14,background:PRIMARY,color:"#fff",padding:"14px 22px",borderRadius:4,fontWeight:900,fontSize:20,fontFamily:"'Playfair Display',serif"}}>10+ Años</div>
+</div>
+<div>
+<span style={{color:PRIMARY,fontSize:12,letterSpacing:4,fontWeight:600}}>SOBRE NOSOTROS</span>
+<h2 style={{color:"#fff",fontSize:"clamp(24px,4vw,38px)",fontWeight:800,fontFamily:"'Playfair Display',serif",margin:"12px 0 20px",lineHeight:1.2}}>Compra, Venta y <span style={{color:PRIMARY}}>Gestoría Vehicular</span></h2>
+<p style={{color:"#999",fontSize:14,lineHeight:1.8,marginBottom:16}}>En <strong style={{color:PRIMARY}}>Cuerna Garage</strong> somos especialistas en la compra, venta y consignación de autos seminuevos, además de gestoría vehicular integral.</p>
+<div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+{[{icon:"🛡️",t:"Autos verificados"},{icon:"📋",t:"Gestoría integral"},{icon:"💲",t:"Financiamiento 20%"},{icon:"🏆",t:"10 años experiencia"}].map((x,i)=>(<div key={i} style={{display:"flex",alignItems:"center",gap:10}}><div style={{color:PRIMARY,width:30,height:30,borderRadius:4,background:PRIMARY_TINT,display:"flex",alignItems:"center",justifyContent:"center",fontSize:16}}>{x.icon}</div><span style={{color:"#bbb",fontSize:13}}>{x.t}</span></div>))}
+</div>
+</div>
+</div>
+</section>
+);
+}
+function ServicesSection() {
+const services = [
+{icon:"🚗",t:"Venta de Autos",d:"Inventario de autos seminuevos verificados.",img:"https://image.qwenlm.ai/public_source/ca21dc10-c9f1-4857-93e0-f646a4061a62/1c527c66d-0d00-4788-9ca4-8160be380564.png"},
+{icon:"💲",t:"Compra de tu Auto",d:"Mejor evaluación del mercado.",img:SALESMAN_PHOTO},
+{icon:"🤝",t:"Consignación",d:"Nos encargamos de venderlo por ti.",img:KEYS_PHOTO},
+{icon:"️",t:"Financiamiento",d:"Hey Banco. 20% enganche, 60 meses.",img:"https://image.qwenlm.ai/public_source/ca21dc10-c9f1-4857-93e0-f646a4061a62/177539edf-ca44-4534-b692-d632fa081e72.png"}
+];
+return (
+<section id="servicios" style={{padding:"90px 30px",background:"#0e0e0e"}}>
+<div style={{maxWidth:1200,margin:"0 auto"}}>
+<div style={{textAlign:"center",marginBottom:50}}>
+<span style={{color:PRIMARY,fontSize:12,letterSpacing:4,fontWeight:600}}>NUESTROS SERVICIOS</span>
+<h2 style={{color:"#fff",fontSize:"clamp(24px,4vw,38px)",fontWeight:800,fontFamily:"'Playfair Display',serif",margin:"12px 0"}}>Todo para tu <span style={{color:PRIMARY}}>Auto</span></h2>
+</div>
+<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(250px,1fr))",gap:22}}>
+{services.map((s,i)=>(<div key={i} className="card-hover" style={{background:"linear-gradient(180deg,#181818 0%,#111 100%)",borderRadius:6,overflow:"hidden",border:"1px solid " + PRIMARY_TINT}}><div style={{height:150,overflow:"hidden"}}><img src={s.img} style={{width:"100%",height:"100%",objectFit:"cover"}}/></div><div style={{padding:"22px 20px"}}><div style={{color:PRIMARY,marginBottom:10,fontSize:32}}>{s.icon}</div><h3 style={{color:"#fff",fontSize:17,fontWeight:700,fontFamily:"'Playfair Display',serif",marginBottom:8}}>{s.t}</h3><p style={{color:"#999",fontSize:13,lineHeight:1.7}}>{s.d}</p></div></div>))}
+</div>
+</div>
+</section>
+);
+}
+function GestoriaSection() {
+return (
+<section id="gestoria" style={{padding:"90px 30px",background:"#0a0a0a"}}>
+<div style={{maxWidth:1200,margin:"0 auto"}}>
+<div style={{textAlign:"center",marginBottom:50}}>
+<span style={{color:PRIMARY,fontSize:12,letterSpacing:4,fontWeight:600}}>SERVICIO INTEGRAL</span>
+<h2 style={{color:"#fff",fontSize:"clamp(24px,4vw,38px)",fontWeight:800,fontFamily:"'Playfair Display',serif",margin:"12px 0"}}>Gestoría <span style={{color:PRIMARY}}>Vehicular</span></h2>
+</div>
+<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(320px,1fr))",gap:28}}>
+{GESTORIA.map((cat,i)=>(
+<div key={i} style={{background:"linear-gradient(180deg,#161616 0%,#0f0f0f 100%)",borderRadius:8,padding:"32px 28px",border:"1px solid " + PRIMARY_TINT,position:"relative"}}>
+<div style={{position:"absolute",top:"-18px",left:"24px",width:"40px",height:"40px",borderRadius:"50%",background:PRIMARY,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:900,fontSize:"18px",border:"3px solid #0a0a0a"}}>{cat.numero}</div>
+<h3 style={{color:"#fff",fontSize:18,fontWeight:800,fontFamily:"'Playfair Display',serif",marginBottom:20,marginTop:8}}>{cat.titulo}</h3>
+<div style={{display:"flex",flexDirection:"column",gap:16}}>
+{cat.items.map((item,j)=>(
+<div key={j} style={{borderLeft:"3px solid " + PRIMARY,paddingLeft:14}}>
+<div style={{color:PRIMARY,fontSize:14,fontWeight:700,marginBottom:4}}>{item.t}</div>
+<div style={{color:"#999",fontSize:13,lineHeight:1.6}}>{item.d}</div>
+</div>
+))}
+</div>
+</div>
+))}
+</div>
+<div style={{textAlign:"center",marginTop:40}}><a href={SOCIAL.whatsapp} target="_blank" rel="noreferrer" className="btn-primary">💬 SOLICITAR GESTORÍA</a></div>
+</div>
+</section>
+);
+}
+function FinancingSection() {
+const [price, setPrice] = useState(300000);
+const [months, setMonths] = useState(36);
+const options = [12,24,36,48,60];
+const down = Math.round(price*0.2);
+const fin = price - down;
+const pay = Math.round((fin/months)*1.18);
+return (
+<section id="financiamiento" style={{padding:"90px 30px",background:"#0e0e0e"}}>
+<div style={{maxWidth:1200,margin:"0 auto",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))",gap:40}}>
+<div>
+<span style={{color:PRIMARY,fontSize:12,letterSpacing:4,fontWeight:600}}>FINANCIAMIENTO</span>
+<h2 style={{color:"#fff",fontSize:"clamp(24px,4vw,38px)",fontWeight:800,fontFamily:"'Playfair Display',serif",margin:"12px 0 20px"}}>Llévate tu Auto <span style={{color:PRIMARY}}>Hoy</span></h2>
+<p style={{color:"#999",fontSize:14,lineHeight:1.8,marginBottom:16}}>Enganche 20% con Hey Banco de Banregio.</p>
+<div style={{display:"flex",flexDirection:"column",gap:14}}>
+{[{i:"💲",t:"Enganche 20%"},{i:"⏰",t:"60 meses"},{i:"🛡️",t:"Seguro incluido"},{i:"✓",t:"Aprobación rápida"}].map((x,i)=>(<div key={i} style={{display:"flex",gap:12,padding:14,background:PRIMARY_TINT,borderRadius:4}}><div style={{color:PRIMARY,width:40,height:40,borderRadius:4,background:"rgba(184,115,51,0.15)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20}}>{x.i}</div><div><div style={{color:"#fff",fontWeight:700,fontSize:13}}>{x.t}</div></div></div>))}
+</div>
+</div>
+<div style={{background:"#161616",borderRadius:6,padding:32,border:"1px solid " + PRIMARY_TINT}}>
+<h3 style={{color:"#fff",fontSize:18,fontWeight:700,textAlign:"center",marginBottom:20}}>Calculadora</h3>
+<div style={{marginBottom:20}}><label style={{color:PRIMARY,fontSize:11}}>PRECIO</label><input type="range" min="100000" max="800000" step="10000" value={price} onChange={(e)=>setPrice(parseInt(e.target.value))} style={{width:"100%"}}/><div style={{textAlign:"center",marginTop:2}}><span style={{color:"#fff",fontSize:24,fontWeight:900}}>{price.toLocaleString("es-MX")}</span></div></div>
+<div style={{display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:6,marginBottom:16}}>{options.map((m)=>(<button key={m} onClick={()=>setMonths(m)} style={{padding:"8px",borderRadius:4,border:months===m?"2px solid " + PRIMARY:"1px solid " + PRIMARY_TINT,background:months===m?PRIMARY_TINT:"transparent",color:months===m?PRIMARY:"#888",fontSize:13,cursor:"pointer"}}>{m}</button>))}</div>
+<div style={{background:PRIMARY_TINT,padding:20,borderRadius:4,textAlign:"center"}}>
+<div style={{color:PRIMARY,fontSize:11}}>PAGO MENSUAL APROX.</div>
+<div style={{color:"#fff",fontSize:32,fontWeight:900,fontFamily:"'Playfair Display',serif"}}>{pay.toLocaleString("es-MX")}</div>
+<div style={{color:"#888",fontSize:11}}>{months} meses · Seguro incluido</div>
+</div>
+<a href={SOCIAL.whatsapp} target="_blank" rel="noreferrer" className="btn-primary" style={{display:"flex",justifyContent:"center",width:"100%",marginTop:16}}>💬 SOLICITAR</a>
+</div>
+</div>
+</section>
+);
+}
+function CarDetailModal({ car, onClose }) {
+const [currentImg, setCurrentImg] = useState(0);
+if (!car) return null;
+const imgs = car.imagenes && car.imagenes.length > 0 ? car.imagenes : [car.imagen].filter(Boolean);
+return (
+<div onClick={onClose} style={{position:"fixed",inset:0,zIndex:3000,background:"rgba(0,0,0,0.92)",overflow:"auto",padding:"20px"}}>
+<div onClick={(e)=>e.stopPropagation()} style={{background:"#161616",borderRadius:8,maxWidth:900,width:"100%",margin:"20px auto",overflow:"hidden",border:"1px solid " + PRIMARY_TINT}}>
+<div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"16px 20px",borderBottom:"1px solid " + PRIMARY_TINT}}>
+<h3 style={{color:"#fff",fontSize:20,fontWeight:700,fontFamily:"'Playfair Display',serif"}}>{car.nombre}</h3>
+<button onClick={onClose} style={{background:"none",border:"none",color:"#fff",fontSize:24,cursor:"pointer"}}>✕</button>
+</div>
+{imgs.length > 0 && (
+<div style={{position:"relative",background:"#000"}}>
+<img src={imgs[currentImg]} style={{width:"100%",maxHeight:500,objectFit:"contain"}}/>
+{imgs.length > 1 && (
+<>
+<button onClick={()=>setCurrentImg((currentImg-1+imgs.length)%imgs.length)} style={{position:"absolute",left:10,top:"50%",transform:"translateY(-50%)",background:"rgba(0,0,0,0.7)",border:"none",color:"#fff",width:40,height:40,borderRadius:"50%",cursor:"pointer",fontSize:20}}>‹</button>
+<button onClick={()=>setCurrentImg((currentImg+1)%imgs.length)} style={{position:"absolute",right:10,top:"50%",transform:"translateY(-50%)",background:"rgba(0,0,0,0.7)",border:"none",color:"#fff",width:40,height:40,borderRadius:"50%",cursor:"pointer",fontSize:20}}>›</button>
+</>
+)}
+</div>
+)}
+{car.video && (
+<div style={{padding:"16px 20px"}}>
+<div style={{color:PRIMARY,fontSize:12,marginBottom:8,fontWeight:600}}> VIDEO</div>
+<video src={car.video} controls style={{width:"100%",borderRadius:4,background:"#000"}}/>
+</div>
+)}
+<div style={{padding:"24px 20px"}}>
+<div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20,flexWrap:"wrap",gap:12}}>
+<div style={{color:"#fff",fontSize:32,fontWeight:900,fontFamily:"'Playfair Display',serif"}}>{car.precio}</div>
+<div style={{padding:"6px 14px",borderRadius:4,fontSize:12,fontWeight:700,background:car.estado==="vendido"?"#e74c3c":"#25D366",color:"#fff"}}>{car.estado==="vendido"?"✓ VENDIDO":"DISPONIBLE"}</div>
+</div>
+<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(140px,1fr))",gap:12,marginBottom:20}}>
+{[{l:"Año",v:car.anio},{l:"Kilómetros",v:car.kilometros},{l:"Transmisión",v:car.transmision},{l:"Motor",v:car.motor},{l:"Categoría",v:car.categoria}].map((x,i)=>(
+<div key={i} style={{background:PRIMARY_TINT,padding:12,borderRadius:4}}>
+<div style={{color:"#888",fontSize:10}}>{x.l}</div>
+<div style={{color:"#fff",fontSize:14,fontWeight:700,marginTop:4}}>{x.v}</div>
+</div>
+))}
+</div>
+<div style={{marginBottom:20}}>
+<div style={{color:PRIMARY,fontSize:12,marginBottom:8,fontWeight:600}}> DESCRIPCIÓN</div>
+<p style={{color:"#ccc",fontSize:14,lineHeight:1.7}}>{car.descripcion}</p>
+</div>
+{car.estado === "disponible" && (
+<a href={SOCIAL.whatsapp + "?text=" + encodeURIComponent("Hola! Me interesa el " + car.nombre + " (" + car.precio + ")")} target="_blank" rel="noreferrer" className="btn-whatsapp" style={{width:"100%",justifyContent:"center"}}>💬 PREGUNTAR</a>
+)}
+</div>
+</div>
+</div>
+);
+}
+function InventorySection({cars, onCarClick}) {
+const [filter, setFilter] = useState("Todos");
+const cats = ["Todos","Sedán","SUV","Pickup"];
+const filtered = filter==="Todos" ? cars.filter(c=>c.estado==="disponible") : cars.filter(c=>c.estado==="disponible"&&c.categoria===filter);
+return (
+<section id="inventario" style={{padding:"90px 30px",background:"#0a0a0a"}}>
+<div style={{maxWidth:1200,margin:"0 auto"}}>
+<div style={{textAlign:"center",marginBottom:16}}><span style={{color:PRIMARY,fontSize:12,letterSpacing:4}}>INVENTARIO</span><h2 style={{color:"#fff",fontSize:"clamp(24px,4vw,38px)",fontWeight:800,margin:"10px 0"}}>Autos <span style={{color:PRIMARY}}>Disponibles</span></h2></div>
+<div style={{display:"flex",justifyContent:"center",gap:8,flexWrap:"wrap",marginBottom:32}}>{cats.map((c)=>(<button key={c} onClick={()=>setFilter(c)} style={{padding:"7px 18px",borderRadius:4,border:"none",background:filter===c?PRIMARY:PRIMARY_TINT,color:filter===c?"#fff":"#aaa",fontSize:12,fontWeight:600,cursor:"pointer"}}>{c}</button>))}</div>
+<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(270px,1fr))",gap:20}}>
+{filtered.map((car)=>{
+const firstImg = (car.imagenes && car.imagenes[0]) || car.imagen;
+return (
+<div key={car.id} onClick={()=>onCarClick(car)} className="card-hover" style={{background:"#161616",borderRadius:6,overflow:"hidden",border:"1px solid " + PRIMARY_TINT}}>
+<div style={{position:"relative",height:180,overflow:"hidden"}}>
+{firstImg && <img src={firstImg} style={{width:"100%",height:"100%",objectFit:"cover"}}/>}
+{car.destacado && <div style={{position:"absolute",top:10,left:10,background:PRIMARY,color:"#fff",padding:"3px 10px",borderRadius:4,fontSize:10}}>⭐</div>}
+<div style={{position:"absolute",top:10,right:10,background:"rgba(0,0,0,0.7)",color:"#fff",padding:"3px 8px",borderRadius:4,fontSize:10}}>{car.categoria}</div>
+{(car.imagenes && car.imagenes.length>1) && <div style={{position:"absolute",bottom:10,right:10,background:"rgba(0,0,0,0.7)",color:"#fff",padding:"3px 8px",borderRadius:4,fontSize:10}}>📷 {car.imagenes.length}</div>}
+</div>
+<div style={{padding:"16px"}}>
+<div style={{color:PRIMARY,fontSize:11,marginBottom:2}}>{car.anio} · {car.kilometros}</div>
+<h3 style={{color:"#fff",fontSize:15,fontWeight:700,marginBottom:6}}>{car.nombre}</h3>
+<div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+<span style={{color:"#fff",fontSize:18,fontWeight:900}}>{car.precio}</span>
+<span style={{color:PRIMARY,fontSize:11}}>Ver más →</span>
+</div>
+</div>
+</div>
+);
+})}
+</div>
+</div>
+</section>
+);
+}
+function MarketplaceSection({cars, onCarClick}) {
+const [filter, setFilter] = useState("Todos");
+const cats = ["Todos","Sedán","SUV","Pickup"];
+const filtered = filter==="Todos" ? cars : cars.filter(c=>c.categoria===filter);
+const vendidos = cars.filter(c=>c.estado==="vendido");
+return (
+<section id="marketplace" style={{padding:"90px 30px",background:"#0e0e0e"}}>
+<div style={{maxWidth:1200,margin:"0 auto"}}>
+<div style={{textAlign:"center",marginBottom:30}}><span style={{color:"#1877F2",fontSize:12}}>FACEBOOK MARKETPLACE</span><h2 style={{color:"#fff",fontSize:"clamp(24px,4vw,38px)",fontWeight:800,margin:"10px 0"}}>Publicaciones en <span style={{color:"#1877F2"}}>Venta</span></h2></div>
+<div style={{display:"flex",justifyContent:"center",gap:8,flexWrap:"wrap",marginBottom:28}}>{cats.map((c)=>(<button key={c} onClick={()=>setFilter(c)} style={{padding:"7px 18px",borderRadius:4,border:"none",background:filter===c?"#1877F2":"rgba(24,119,242,0.1)",color:filter===c?"#fff":"#aaa",fontSize:12,fontWeight:600,cursor:"pointer"}}>{c}</button>))}</div>
+<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(270px,1fr))",gap:20}}>
+{filtered.map((car)=>{
+const firstImg = (car.imagenes && car.imagenes[0]) || car.imagen;
+return (
+<div key={car.id} onClick={()=>onCarClick(car)} className="card-hover" style={{background:"#161616",borderRadius:6,overflow:"hidden",border:"1px solid rgba(24,119,242,0.15)",opacity:car.estado==="vendido"?0.7:1}}>
+<div style={{position:"relative",height:170,overflow:"hidden"}}>
+{firstImg && <img src={firstImg} style={{width:"100%",height:"100%",objectFit:"cover"}}/>}
+<div style={{position:"absolute",top:10,left:10,background:car.estado==="vendido"?"#e74c3c":"#25D366",color:"#fff",padding:"3px 10px",borderRadius:4,fontSize:10,fontWeight:700}}>{car.estado==="vendido"?"✓ VENDIDO":"DISPONIBLE"}</div>
+</div>
+<div style={{padding:"14px"}}>
+<h3 style={{color:"#fff",fontSize:15,fontWeight:700,marginBottom:4}}>{car.nombre}</h3>
+<span style={{color:"#fff",fontSize:18,fontWeight:900}}>{car.precio}</span>
+</div>
+</div>
+);
+})}
+</div>
+{vendidos.length>0 && (<div style={{marginTop:60}}><h3 style={{color:"#e74c3c",fontSize:18,fontWeight:700,textAlign:"center",marginBottom:20}}>🔒 Recién Vendidos</h3><div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(220px,1fr))",gap:16}}>{vendidos.slice(0,4).map((car)=>(<div key={car.id} style={{background:"#161616",borderRadius:6,overflow:"hidden",border:"1px solid rgba(231,76,60,0.15)",opacity:0.6}}><div style={{height:140}}><img src={(car.imagenes && car.imagenes[0]) || car.imagen} style={{width:"100%",height:"100%",objectFit:"cover",filter:"grayscale(60%)"}}/></div><div style={{padding:"12px"}}><div style={{color:"#aaa",fontSize:13,fontWeight:600}}>{car.nombre}</div><div style={{color:"#888",fontSize:12}}>{car.anio} · {car.precio}</div></div></div>))}</div></div>)}
+<div style={{textAlign:"center",marginTop:40}}><a href={SOCIAL.facebook} target="_blank" rel="noreferrer" style={{background:"#1877F2",color:"#fff",padding:"13px 32px",borderRadius:4,fontWeight:700,display:"inline-flex",alignItems:"center",gap:10}}>📘 VER EN FACEBOOK</a></div>
+</div>
+</section>
+);
+}
+function TestimonialsSection() {
+const [active, setActive] = useState(0);
+useEffect(()=>{const iv = setInterval(()=>setActive((p)=>(p+1)%TESTIMONIALS.length),5000);return ()=>clearInterval(iv);},[]);
+return (
+<section style={{padding:"90px 30px",background:"#0a0a0a"}}>
+<div style={{maxWidth:750,margin:"0 auto",textAlign:"center"}}>
+<span style={{color:PRIMARY,fontSize:12,letterSpacing:4}}>TESTIMONIOS</span>
+<h2 style={{color:"#fff",fontSize:"clamp(24px,4vw,38px)",fontWeight:800,margin:"10px 0 30px"}}>Nuestros <span style={{color:PRIMARY}}>Clientes</span></h2>
+<div style={{padding:"24px"}}>
+<div style={{display:"flex",justifyContent:"center",gap:4,marginBottom:16}}>{[...Array(5)].map((_,i)=><span key={i} style={{color:PRIMARY}}>★</span>)}</div>
+<p style={{color:"#ccc",fontSize:16,lineHeight:1.8,fontStyle:"italic",marginBottom:16}}>"{TESTIMONIALS[active].text}"</p>
+<div style={{color:"#fff",fontWeight:700}}>{TESTIMONIALS[active].name}</div>
+<div style={{color:PRIMARY,fontSize:12}}>{TESTIMONIALS[active].car}</div>
+</div>
+</div>
+</section>
+);
+}
+function FAQSection() {
+const [idx, setIdx] = useState(null);
+return (
+<section style={{padding:"90px 30px",background:"#0e0e0e"}}>
+<div style={{maxWidth:750,margin:"0 auto"}}>
+<div style={{textAlign:"center",marginBottom:30}}><span style={{color:PRIMARY,fontSize:12}}>FAQ</span><h2 style={{color:"#fff",fontSize:"clamp(24px,4vw,38px)",fontWeight:800,margin:"10px 0"}}>Preguntas Frecuentes</h2></div>
+<div style={{display:"flex",flexDirection:"column",gap:10}}>
+{FAQS.map((f,i)=>(<div key={i} style={{background:"#161616",borderRadius:4,border:"1px solid " + PRIMARY_TINT,overflow:"hidden"}}>
+<button onClick={()=>setIdx(idx===i?null:i)} style={{width:"100%",padding:"16px",background:"transparent",border:"none",color:"#fff",fontSize:14,fontWeight:600,cursor:"pointer",textAlign:"left"}}>{f.q}</button>
+{idx===i && <p style={{color:"#999",fontSize:13,padding:"0 20px 16px"}}>{f.a}</p>}
+</div>))}
+</div>
+</div>
+</section>
+);
+}
+function ContactSection() {
+const [form, setForm] = useState({nombre:"",telefono:"",email:"",mensaje:"",interes:"compra"});
+const [sent, setSent] = useState(false);
+const handleSubmit = (e) => {
+e.preventDefault();
+const msg = encodeURIComponent("Hola Cuerna Garage!\n" + form.nombre + "\n" + form.telefono + "\n" + form.email + "\n\n" + form.interes + "\n\n" + form.mensaje);
+window.open("https://wa.me/" + WHATSAPP + "?text=" + msg,"_blank");
+setSent(true);
+setTimeout(()=>setSent(false),3000);
+};
+const inputStyle = {width:"100%",padding:"11px 14px",background:"#161616",border:"1px solid " + PRIMARY_TINT,borderRadius:4,color:"#fff",fontSize:14,outline:"none"};
+return (
+<section id="contacto" style={{padding:"90px 30px",background:"#0a0a0a"}}>
+<div style={{maxWidth:1200,margin:"0 auto"}}>
+<div style={{textAlign:"center",marginBottom:40}}><span style={{color:PRIMARY,fontSize:12}}>CONTACTO</span><h2 style={{color:"#fff",fontSize:"clamp(24px,4vw,38px)",fontWeight:800,margin:"10px 0"}}>Estamos para <span style={{color:PRIMARY}}>Servirte</span></h2></div>
+<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))",gap:40}}>
+<div>
+<h3 style={{color:"#fff",fontSize:18,marginBottom:20}}>Envíanos Mensaje</h3>
+<form onSubmit={handleSubmit} style={{display:"flex",flexDirection:"column",gap:10}}>
+<input type="text" placeholder="Tu nombre" required value={form.nombre} onChange={(e)=>setForm({...form,nombre:e.target.value})} style={inputStyle}/>
+<input type="tel" placeholder="Tu teléfono" required value={form.telefono} onChange={(e)=>setForm({...form,telefono:e.target.value})} style={inputStyle}/>
+<input type="email" placeholder="Tu email" required value={form.email} onChange={(e)=>setForm({...form,email:e.target.value})} style={inputStyle}/>
+<select value={form.interes} onChange={(e)=>setForm({...form,interes:e.target.value})} style={{...inputStyle,cursor:"pointer"}}><option value="compra">Comprar</option><option value="venta">Vender</option><option value="consignacion">Consignar</option><option value="financiamiento">Financiamiento</option></select>
+<textarea placeholder="Mensaje" rows={4} value={form.mensaje} onChange={(e)=>setForm({...form,mensaje:e.target.value})} style={{...inputStyle,resize:"vertical"}}/>
+<button type="submit" className="btn-primary" style={{justifyContent:"center"}}>{sent?"✓ ENVIADO!":"💬 ENVIAR"}</button>
+</form>
+</div>
+<div>
+<h3 style={{color:"#fff",fontSize:18,marginBottom:20}}>Encuéntranos</h3>
+<div style={{display:"flex",flexDirection:"column",gap:16,marginBottom:28}}>
+<div style={{display:"flex",gap:12,alignItems:"center"}}><div style={{color:PRIMARY,width:40,height:40,borderRadius:4,background:PRIMARY_TINT,display:"flex",alignItems:"center",justifyContent:"center"}}>💬</div><div><div style={{color:"#888",fontSize:11}}>WhatsApp</div><div style={{color:"#fff",fontWeight:600}}>+52 777 453 9174</div></div></div>
+<div style={{display:"flex",gap:12,alignItems:"center"}}><div style={{color:PRIMARY,width:40,height:40,borderRadius:4,background:PRIMARY_TINT,display:"flex",alignItems:"center",justifyContent:"center"}}></div><div><div style={{color:"#888",fontSize:11}}>Email</div><div style={{color:"#fff",fontWeight:600}}>cuernagarage@gmail.com</div></div></div>
+<div style={{display:"flex",gap:12,alignItems:"center"}}><div style={{color:PRIMARY,width:40,height:40,borderRadius:4,background:PRIMARY_TINT,display:"flex",alignItems:"center",justifyContent:"center"}}>📍</div><div><div style={{color:"#888",fontSize:11}}>Ubicación</div><div style={{color:"#fff",fontWeight:600}}>Cuernavaca, Morelos</div></div></div>
+</div>
+<div style={{padding:18,background:PRIMARY_TINT,borderRadius:4}}>
+<div style={{color:PRIMARY,fontSize:11,marginBottom:6,fontWeight:600}}>HORARIO</div>
+<div style={{color:"#ccc",fontSize:13,lineHeight:1.7}}><div>Lun - Vie: 9:00 - 19:00</div><div>Sábado: 9:00 - 15:00</div><div>Domingo: Con cita</div></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+);
+}
+function Footer() {
+return (
+<footer style={{background:"#060606",padding:"30px",borderTop:"1px solid " + PRIMARY_TINT,textAlign:"center"}}>
+<img src={LOGO_URL} style={{height:"50px",marginBottom:10}} draggable={false}/>
+<p style={{color:"#555",fontSize:12}}>Compra, venta, consignación y gestoría vehicular.</p>
+<p style={{color:"#444",fontSize:11,marginTop:10}}>© 2025 Cuerna Garage.</p>
+</footer>
+);
+}
+function WhatsAppFloat() {
+return <a href={SOCIAL.whatsappCat} target="_blank" rel="noreferrer" style={{position:"fixed",bottom:22,right:22,zIndex:998,width:54,height:54,borderRadius:"50%",background:"#25D366",display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontSize:26,boxShadow:"0 4px 24px rgba(37,211,102,0.4)"}}>💬</a>;
+}
+function AdminPanel({cars, setCars, onClose}) {
+const [showAdd, setShowAdd] = useState(false);
+const [editing, setEditing] = useState(null);
+const [filter, setFilter] = useState("todos");
+const empty = {id:Date.now(),nombre:"",anio:"",precio:"",categoria:"Sedán",kilometros:"",transmision:"Automática",motor:"",descripcion:"",imagenes:[],video:"",estado:"disponible",destacado:false};
+const [form, setForm] = useState(empty);
+const [dragOver, setDragOver] = useState(false);
+const fileInputRef = useRef(null);
+const videoInputRef = useRef(null);
+const inputStyle = {width:"100%",padding:"10px 14px",background:"#161616",border:"1px solid " + PRIMARY_TINT,borderRadius:4,color:"#fff",fontSize:14,outline:"none"};
+const saveCar = () => {
+if(!form.nombre||!form.precio){alert("Completa nombre y precio.");return;}
+if(editing) setCars((p)=>p.map((c)=>c.id===editing.id?{...form}:c));
+else setCars((p)=>[...p,{...form}]);
+setShowAdd(false);setEditing(null);setForm(empty);
+};
+const deleteCar = (id) => {if(confirm("¿Eliminar?"))setCars((p)=>p.filter((c)=>c.id!==id));};
+const toggleEstado = (id) => setCars((p)=>p.map((c)=>c.id===id?{...c,estado:c.estado==="disponible"?"vendido":"disponible"}:c));
+const toggleDest = (id) => setCars((p)=>p.map((c)=>c.id===id?{...c,destacado:!c.destacado}:c));
+const filtered = filter==="todos"?cars:filter==="disponibles"?cars.filter(c=>c.estado==="disponible"):cars.filter(c=>c.estado==="vendido");
+const handleFiles = (files) => {
+const newImgs = [];
+Array.from(files).forEach(file => {
+if (file.type.startsWith('image/') && form.imagenes.length + newImgs.length < 20) {
+const reader = new FileReader();
+reader.onload = (e) => {
+newImgs.push(e.target.result);
+if (newImgs.length === Math.min(files.length, 20 - form.imagenes.length)) {
+setForm(prev => ({...prev, imagenes: [...prev.imagenes, ...newImgs]}));
+}
+};
+reader.readAsDataURL(file);
+}
+});
+};
+const handleVideo = (file) => {
+if (file && file.type.includes('video')) {
+const reader = new FileReader();
+reader.onload = (e) => setForm(prev => ({...prev, video: e.target.result}));
+reader.readAsDataURL(file);
+}
+};
+const removeImg = (idx) => setForm(prev => ({...prev, imagenes: prev.imagenes.filter((_,i)=>i!==idx)}));
+const removeVideo = () => setForm(prev => ({...prev, video: ""}));
+const onDrop = (e) => { e.preventDefault(); setDragOver(false); handleFiles(e.dataTransfer.files); };
+return (
+<div style={{position:"fixed",inset:0,zIndex:2000,background:"rgba(0,0,0,0.92)",overflow:"auto",padding:20}}>
+<div style={{maxWidth:1100,margin:"0 auto"}}>
+<div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:24}}>
+<h2 style={{color:"#fff",fontSize:20}}>⚙️ Panel Admin</h2>
+<button onClick={onClose} style={{background:"none",border:"1px solid " + PRIMARY_TINT,color:"#fff",padding:"8px 16px",borderRadius:4,cursor:"pointer"}}>✕ Cerrar</button>
+</div>
+<button onClick={()=>{setEditing(null);setForm({...empty,id:Date.now()});setShowAdd(true);}} style={{width:"100%",padding:"14px",background:PRIMARY_TINT,border:"2px dashed " + PRIMARY,borderRadius:4,color:PRIMARY,fontSize:14,fontWeight:700,cursor:"pointer",marginBottom:20}}>➕ AGREGAR AUTO</button>
+<div style={{display:"flex",gap:8,marginBottom:16}}>{["todos","disponibles","vendidos"].map((f)=>(<button key={f} onClick={()=>setFilter(f)} style={{padding:"6px 16px",borderRadius:4,border:"none",background:filter===f?PRIMARY:PRIMARY_TINT,color:filter===f?"#fff":"#aaa",fontSize:12,fontWeight:600,cursor:"pointer"}}>{f}</button>))}</div>
+<div style={{display:"flex",flexDirection:"column",gap:8}}>
+{filtered.map((car)=>(<div key={car.id} style={{background:"#161616",borderRadius:4,border:"1px solid " + (car.estado==="vendido"?"#e74c3c":PRIMARY_TINT),padding:16,display:"flex",alignItems:"center",gap:16,flexWrap:"wrap"}}>
+<img src={(car.imagenes && car.imagenes[0]) || car.imagen} style={{width:70,height:50,objectFit:"cover",borderRadius:4}}/>
+<div style={{flex:1,minWidth:150}}>
+<div style={{color:"#fff",fontWeight:700,fontSize:14}}>{car.nombre}</div>
+<div style={{color:"#888",fontSize:12}}>{car.anio} · {car.categoria}</div>
+</div>
+<span style={{color:"#fff",fontWeight:900,fontSize:16}}>{car.precio}</span>
+<span style={{padding:"4px 10px",borderRadius:4,fontSize:11,fontWeight:700,background:car.estado==="vendido"?"rgba(231,76,60,0.15)":"rgba(37,211,102,0.15)",color:car.estado==="vendido"?"#e74c3c":"#25D366"}}>{car.estado}</span>
+<button onClick={()=>toggleEstado(car.id)} style={{background:"none",border:"1px solid " + PRIMARY_TINT,color:PRIMARY,padding:"6px 8px",borderRadius:4,cursor:"pointer"}}>🏷</button>
+<button onClick={()=>toggleDest(car.id)} style={{background:car.destacado?PRIMARY_TINT:"none",border:"1px solid " + PRIMARY_TINT,color:PRIMARY,padding:"6px 8px",borderRadius:4,cursor:"pointer"}}>⭐</button>
+<button onClick={()=>{setEditing(car);setForm({...car});setShowAdd(true);}} style={{background:"none",border:"1px solid " + PRIMARY_TINT,color:PRIMARY,padding:"6px 8px",borderRadius:4,cursor:"pointer"}}>✏️</button>
+<button onClick={()=>deleteCar(car.id)} style={{background:"none",border:"1px solid rgba(231,76,60,0.2)",color:"#e74c3c",padding:"6px 8px",borderRadius:4,cursor:"pointer"}}>🗑️</button>
+</div>))}
+</div>
+</div>
+{showAdd && (<div onClick={()=>setShowAdd(false)} style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.85)",zIndex:2001,display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
+<div onClick={(e)=>e.stopPropagation()} style={{background:"#161616",borderRadius:6,border:"1px solid " + PRIMARY,maxWidth:700,width:"100%",maxHeight:"90vh",overflow:"auto",padding:32}}>
+<h3 style={{color:"#fff",fontSize:20,marginBottom:24}}>{editing?"Editar":"Nuevo"} Auto</h3>
+<div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:20}}>
+<div style={{gridColumn:"1 / -1"}}><label style={{color:PRIMARY,fontSize:11,display:"block",marginBottom:4}}>NOMBRE *</label><input value={form.nombre} onChange={(e)=>setForm({...form,nombre:e.target.value})} style={inputStyle}/></div>
+<div><label style={{color:PRIMARY,fontSize:11,display:"block",marginBottom:4}}>AÑO</label><input value={form.anio} onChange={(e)=>setForm({...form,anio:e.target.value})} style={inputStyle}/></div>
+<div><label style={{color:PRIMARY,fontSize:11,display:"block",marginBottom:4}}>PRECIO *</label><input value={form.precio} onChange={(e)=>setForm({...form,precio:e.target.value})} style={inputStyle}/></div>
+<div><label style={{color:PRIMARY,fontSize:11,display:"block",marginBottom:4}}>CATEGORÍA</label><select value={form.categoria} onChange={(e)=>setForm({...form,categoria:e.target.value})} style={{...inputStyle,cursor:"pointer"}}><option>Sedán</option><option>SUV</option><option>Pickup</option></select></div>
+<div><label style={{color:PRIMARY,fontSize:11,display:"block",marginBottom:4}}>KILÓMETROS</label><input value={form.kilometros} onChange={(e)=>setForm({...form,kilometros:e.target.value})} style={inputStyle}/></div>
+<div><label style={{color:PRIMARY,fontSize:11,display:"block",marginBottom:4}}>TRANSMISIÓN</label><select value={form.transmision} onChange={(e)=>setForm({...form,transmision:e.target.value})} style={{...inputStyle,cursor:"pointer"}}><option>Automática</option><option>Manual</option><option>CVT</option></select></div>
+<div><label style={{color:PRIMARY,fontSize:11,display:"block",marginBottom:4}}>MOTOR</label><input value={form.motor} onChange={(e)=>setForm({...form,motor:e.target.value})} style={inputStyle}/></div>
+<div><label style={{color:PRIMARY,fontSize:11,display:"block",marginBottom:4}}>ESTADO</label><select value={form.estado} onChange={(e)=>setForm({...form,estado:e.target.value})} style={{...inputStyle,cursor:"pointer"}}><option value="disponible">Disponible</option><option value="vendido">Vendido</option></select></div>
+<div style={{display:"flex",alignItems:"flex-end"}}><label style={{display:"flex",alignItems:"center",gap:8,color:"#fff",cursor:"pointer"}}><input type="checkbox" checked={form.destacado} onChange={(e)=>setForm({...form,destacado:e.target.checked})} style={{accentColor:PRIMARY}}/>Destacado</label></div>
+<div style={{gridColumn:"1 / -1"}}><label style={{color:PRIMARY,fontSize:11,display:"block",marginBottom:4}}>DESCRIPCIÓN</label><textarea value={form.descripcion} onChange={(e)=>setForm({...form,descripcion:e.target.value})} rows={3} style={{...inputStyle,resize:"vertical"}}/></div>
+</div>
+<div style={{marginBottom:20}}>
+<label style={{color:PRIMARY,fontSize:12,display:"block",marginBottom:8,fontWeight:600}}>📷 FOTOS ({form.imagenes.length}/20)</label>
+<div onDragOver={(e)=>{e.preventDefault();setDragOver(true);}} onDragLeave={()=>setDragOver(false)} onDrop={onDrop} onClick={()=>fileInputRef.current.click()} style={{border:"2px dashed " + (dragOver?PRIMARY:PRIMARY_TINT),borderRadius:6,padding:20,textAlign:"center",cursor:"pointer",background:dragOver?PRIMARY_TINT:"transparent"}}>
+<div style={{fontSize:32,marginBottom:8}}></div>
+<div style={{color:"#fff",marginBottom:4}}>Arrastra fotos o clic para seleccionar</div>
+<div style={{color:"#888",fontSize:11}}>Hasta 20 · JPG, PNG, WEBP</div>
+<input ref={fileInputRef} type="file" accept="image/*" multiple style={{display:"none"}} onChange={(e)=>handleFiles(e.target.files)}/>
+</div>
+{form.imagenes.length > 0 && (
+<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(100px,1fr))",gap:8,marginTop:12}}>
+{form.imagenes.map((img,i)=>(
+<div key={i} style={{position:"relative",borderRadius:4,overflow:"hidden",border:"1px solid " + PRIMARY_TINT}}>
+<img src={img} style={{width:"100%",height:80,objectFit:"cover"}}/>
+<button onClick={()=>removeImg(i)} style={{position:"absolute",top:4,right:4,background:"rgba(231,76,60,0.9)",border:"none",color:"#fff",width:22,height:22,borderRadius:"50%",cursor:"pointer",fontSize:12}}>✕</button>
+{i===0 && <div style={{position:"absolute",bottom:0,left:0,right:0,background:"rgba(184,115,51,0.9)",color:"#fff",fontSize:9,textAlign:"center"}}>PORTADA</div>}
+</div>
+))}
+</div>
+)}
+</div>
+<div style={{marginBottom:20}}>
+<label style={{color:PRIMARY,fontSize:12,display:"block",marginBottom:8,fontWeight:600}}> VIDEO (opcional)</label>
+{form.video ? (
+<div style={{position:"relative",borderRadius:6,overflow:"hidden"}}>
+<video src={form.video} controls style={{width:"100%",maxHeight:200,background:"#000"}}/>
+<button onClick={removeVideo} style={{position:"absolute",top:8,right:8,background:"rgba(231,76,60,0.9)",border:"none",color:"#fff",width:30,height:30,borderRadius:"50%",cursor:"pointer"}}>✕</button>
+</div>
+) : (
+<div onClick={()=>videoInputRef.current.click()} style={{border:"2px dashed " + PRIMARY_TINT,borderRadius:6,padding:16,textAlign:"center",cursor:"pointer"}}>
+<div style={{fontSize:24}}>🎬</div>
+<div style={{color:"#fff",fontSize:13}}>Clic para subir MP4</div>
+<input ref={videoInputRef} type="file" accept="video/*" style={{display:"none"}} onChange={(e)=>handleVideo(e.target.files[0])}/>
+</div>
+)}
+</div>
+<div style={{display:"flex",gap:10}}>
+<button onClick={saveCar} className="btn-primary" style={{flex:1,justifyContent:"center"}}>💾 GUARDAR</button>
+<button onClick={()=>setShowAdd(false)} style={{background:"none",color:"#888",padding:"12px 20px",borderRadius:4,border:"1px solid " + PRIMARY_TINT,cursor:"pointer"}}>Cancelar</button>
+</div>
+</div>
+</div>)}
+</div>
+);
+}
+function LoginModal({onLogin, onClose}) {
+const [pwd, setPwd] = useState("");
+const [err, setErr] = useState(false);
+return (
+<div onClick={onClose} style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.85)",zIndex:2001,display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
+<div onClick={(e)=>e.stopPropagation()} style={{background:"#161616",borderRadius:6,border:"1px solid " + PRIMARY,padding:36,maxWidth:400,width:"100%",textAlign:"center"}}>
+<div style={{fontSize:40,marginBottom:16}}>🔒</div>
+<h3 style={{color:"#fff",fontSize:20,marginBottom:24}}>Panel Admin</h3>
+<input type="password" value={pwd} onChange={(e)=>{setPwd(e.target.value);setErr(false);}} placeholder="Contraseña" autoFocus style={{width:"100%",padding:"12px",background:"#0a0a0a",border:"1px solid " + PRIMARY_TINT,borderRadius:4,color:"#fff",fontSize:15,outline:"none",textAlign:"center",marginBottom:12}}/>
+{err && <p style={{color:"#e74c3c",fontSize:12,marginBottom:12}}>Incorrecta</p>}
+<button onClick={()=>{if(pwd==="cuerna2025")onLogin();else setErr(true);}} className="btn-primary" style={{width:"100%",justifyContent:"center",marginBottom:12}}>🔓 ACCEDER</button>
+<button onClick={onClose} style={{background:"none",border:"none",color:"#888",cursor:"pointer"}}>Cancelar</button>
+</div>
+</div>
+);
+}
+function App() {
+const [cars, setCars] = useState(DEFAULT_CARS);
+const [isAdmin, setIsAdmin] = useState(false);
+const [showLogin, setShowLogin] = useState(false);
+const [showAdmin, setShowAdmin] = useState(false);
+const [selectedCar, setSelectedCar] = useState(null);
+return (<>
+<Navbar onAdmin={()=>{if(isAdmin)setShowAdmin(true);else setShowLogin(true);}} isAdmin={isAdmin}/>
+<Hero/><StatsBar/><AboutSection/><ServicesSection/>
+<GestoriaSection/>
+<FinancingSection/>
+<InventorySection cars={cars} onCarClick={setSelectedCar}/>
+<MarketplaceSection cars={cars} onCarClick={setSelectedCar}/>
+<TestimonialsSection/><FAQSection/><ContactSection/>
+<Footer/><WhatsAppFloat/>
+{selectedCar && <CarDetailModal car={selectedCar} onClose={()=>setSelectedCar(null)}/>}
+{showLogin && <LoginModal onLogin={()=>{setShowLogin(false);setIsAdmin(true);setShowAdmin(true);}} onClose={()=>setShowLogin(false)}/>}
+{showAdmin && <AdminPanel cars={cars} setCars={setCars} onClose={()=>setShowAdmin(false)}/>}
+</>);
+}
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App/>);
+</script>
+</body>
+</html></content>
+</fsWrite>
