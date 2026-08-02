@@ -18,7 +18,7 @@ export const INITIAL_CARS: Car[] = [
   {
     id: '1',
     nombre: 'Honda Civic 2020',
-    anio: 2020,
+    anio: '2020',
     kilometros: '45,000 km',
     precio: '$320,000 MXN',
     estado: 'disponible',
