@@ -1,17 +1,20 @@
 export interface Car {
-  id: string;
+  id: number;
   nombre: string;
-  anio: number;
+  anio: string;
   kilometros: string;
   precio: string;
-  estado: 'disponible' | 'vendido';
+  estado: string;
   categoria: string;
   imagen: string;
   descripcion?: string;
   transmision?: string;
-  combustible?: string;
+  motor?: string;
   color?: string;
   puertas?: number;
+  fotos?: any[];
+  destacado?: boolean;
+  created_at?: string;
 }
 
 export interface Testimonial {
