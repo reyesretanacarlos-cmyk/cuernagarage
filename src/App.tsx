@@ -6,18 +6,21 @@ import FinancingCalculator from './components/FinancingCalculator';
 import ContactForm from './components/ContactForm';
 import LoginModal from './components/LoginModal';
 import AdminPanel from './components/AdminPanel';
-import { INITIAL_CARS, TESTIMONIALS, FAQS, GESTORIA, IMAGES, SOCIAL_LINKS } from './data';
+import {
+  INITIAL_CARS, TESTIMONIALS, FAQS, GESTORIA, IMAGES, SOCIAL_LINKS
+} from './data';
 import { Car } from './types';
-import { CheckCircle2, ChevronDown, Sparkles, MessageSquare, Phone, Mail, MapPin, ChevronUp } from 'lucide-react';
+import {
+  CheckCircle2, ChevronDown, Sparkles, MessageSquare, Phone, Mail, MapPin, ChevronUp
+} from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
-// Configuración de Supabase
 const supabaseUrl = 'https://uiwaildfmovzhqftqcwz.supabase.co';
 const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpd2FpbGRmbW92emhxZnRxY3d6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUyNTcyNDgsImV4cCI6MjEwMDgzMzI0OH0.ahTS8n-eS_MuxadjassVi3DmMe-v29JtbgUy_hjR4vw';
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export default function App() {
-  // 1. Estado inicial limpio (YA NO USA localStorage)
+  // ✅ SIN localStorage - solo estado inicial
   const [cars, setCars] = useState<Car[]>(INITIAL_CARS);
   const [activeSection, setActiveSection] = useState('inicio');
   const [isAdmin, setIsAdmin] = useState(false);
@@ -28,7 +31,7 @@ export default function App() {
   const [inventoryFilter, setInventoryFilter] = useState('Todos');
   const [showBackToTop, setShowBackToTop] = useState(false);
 
-  // 2. Función para leer los autos desde Supabase al cargar la página
+  // ✅ Lee autos desde Supabase al cargar
   const fetchCars = async () => {
     try {
       if (!supabase) return;
@@ -49,20 +52,19 @@ export default function App() {
     fetchCars();
   }, []);
 
-  // 3. Función NUEVA: Guarda todo el inventario en Supabase
+  // ✅ NUEVA: Guarda autos en Supabase (reemplaza todo el inventario)
   const saveCarsToSupabase = async (newCars: Car[]) => {
     try {
       if (!supabase) return;
-      
-      // Paso A: Borramos el inventario actual en la base de datos
+
+      // 1. Borra todos los registros actuales
       const { error: deleteError } = await supabase.from('cars').delete().neq('id', 0);
       if (deleteError) {
         console.warn('Error limpiando autos:', deleteError.message);
       }
-      
-      // Paso B: Insertamos el inventario nuevo
+
+      // 2. Inserta los nuevos (sin id ni created_at para que Supabase los genere)
       if (newCars.length > 0) {
-        // Quitamos el 'id' y 'created_at' para que Supabase los genere automáticamente
         const carsToInsert = newCars.map(({ id, created_at, ...rest }) => rest);
         const { error: insertError } = await supabase.from('cars').insert(carsToInsert);
         if (insertError) {
@@ -114,7 +116,6 @@ export default function App() {
     }
   };
 
-  // Filters setup
   const filteredAvailableCars = cars.filter((c) => {
     const isAvail = c.estado === 'disponible';
     if (inventoryFilter === 'Todos') return isAvail;
@@ -123,7 +124,6 @@ export default function App() {
 
   return (
     <div className="bg-slate-950 text-slate-100 min-h-screen selection:bg-amber-500/30 selection:text-amber-200">
-      {/* Navigation Header */}
       <Navbar
         onAdminClick={() => {
           if (isAdmin) {
@@ -136,10 +136,9 @@ export default function App() {
         activeSection={activeSection}
       />
 
-      {/* Hero Header Banner */}
       <section id="inicio" className="relative min-h-screen flex items-center justify-center pt-24 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img src={IMAGES.heroBg} alt="Cuerna Garage Workspace Banner" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
+          <img src={IMAGES.heroBg} alt="Cuerna Garage" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
           <div className="absolute inset-0 bg-slate-950/75 backdrop-blur-[1px]" />
           <div className="absolute inset-0 bg-gradient-to-b from-slate-950/20 via-slate-950/70 to-slate-950" />
         </div>
@@ -158,11 +157,11 @@ export default function App() {
             Autos seminuevos completamente verificados, gestoría vehicular integral y financiamiento accesible con Hey Banco de Banregio. Enganche desde el 20% con seguro ya incluido.
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
-            <a href={SOCIAL_LINKS.whatsapp} target="_blank" rel="noreferrer" className="w-full sm:w-auto px-8 py-3.5 bg-emerald-500 hover:bg-emerald-400 active:scale-98 text-slate-950 font-sans font-black rounded-xl text-xs uppercase tracking-wider shadow-lg shadow-emerald-500/10 transition-all flex items-center justify-center gap-2">
+            <a href={SOCIAL_LINKS.whatsapp} target="_blank" rel="noreferrer" className="w-full sm:w-auto px-8 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-sans font-black rounded-xl text-xs uppercase tracking-wider shadow-lg shadow-emerald-500/10 transition-all flex items-center justify-center gap-2">
               <MessageSquare size={16} />
               <span>Cotizar por WhatsApp</span>
             </a>
-            <button onClick={() => handleScrollToSection('inventario')} className="w-full sm:w-auto px-8 py-3.5 bg-slate-900 hover:bg-slate-850 active:scale-98 text-slate-200 font-sans font-black rounded-xl text-xs uppercase tracking-wider border border-slate-800 hover:border-slate-700 transition-all cursor-pointer">
+            <button onClick={() => handleScrollToSection('inventario')} className="w-full sm:w-auto px-8 py-3.5 bg-slate-900 hover:bg-slate-850 text-slate-200 font-sans font-black rounded-xl text-xs uppercase tracking-wider border border-slate-800 hover:border-slate-700 transition-all cursor-pointer">
               Ver Inventario
             </button>
           </motion.div>
@@ -173,7 +172,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* Stats summary bar row */}
       <section className="bg-gradient-to-r from-slate-900 via-slate-950 to-slate-900 border-t border-b border-amber-600/10 py-10 px-4">
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           {[{ num: '350+', label: 'Autos Vendidos' }, { num: '10+', label: 'Años de Experiencia' }, { num: '98%', label: 'Clientes Satisfechos' }, { num: '50+', label: 'Unidades Anuales' }].map((stat, i) => (
@@ -185,7 +183,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* About Us (Nosotros) */}
       <section id="nosotros" className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-5 relative">
@@ -195,12 +192,8 @@ export default function App() {
           <div className="lg:col-span-7 space-y-6">
             <span className="font-mono text-xs text-amber-500 uppercase tracking-widest font-bold">Sobre Nosotros</span>
             <h2 className="font-sans font-black text-3xl sm:text-4xl text-white tracking-tight">Especialistas en Compra, Venta y <span className="text-amber-500">Gestoría</span></h2>
-            <p className="font-sans text-sm sm:text-base text-slate-300 leading-relaxed">
-              En <strong className="text-amber-500">Cuerna Garage</strong> somos líderes en la comercialización de vehículos seminuevos garantizados y en la simplificación de trámites burocráticos en Morelos. Ofrecemos un servicio premium, transparente y seguro para que no te preocupes por nada.
-            </p>
-            <p className="font-sans text-xs sm:text-sm text-slate-400 leading-relaxed">
-              Trabajamos todos los días con la convicción de ofrecer los mejores precios de compra inmediata, comisiones competitivas en consignación y facilidades de pago para que te lleves el auto de tus sueños sin trabas administrativas.
-            </p>
+            <p className="font-sans text-sm sm:text-base text-slate-300 leading-relaxed">En <strong className="text-amber-500">Cuerna Garage</strong> somos líderes en la comercialización de vehículos seminuevos garantizados y en la simplificación de trámites burocráticos en Morelos. Ofrecemos un servicio premium, transparente y seguro para que no te preocupes por nada.</p>
+            <p className="font-sans text-xs sm:text-sm text-slate-400 leading-relaxed">Trabajamos todos los días con la convicción de ofrecer los mejores precios de compra inmediata, comisiones competitivas en consignación y facilidades de pago para que te lleves el auto de tus sueños sin trabas administrativas.</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-4">
               {['Vehículos rigurosamente inspeccionados', 'Trámites de gestoría legal rápidos', 'Enganche flexible desde el 20%', 'Atención personalizada premium'].map((point, idx) => (
                 <div key={idx} className="flex items-center gap-2.5 text-xs text-slate-300">
@@ -213,7 +206,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* Services (Servicios) */}
       <section id="servicios" className="py-24 bg-slate-900/20 border-t border-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center space-y-3">
@@ -222,12 +214,7 @@ export default function App() {
             <p className="font-sans text-xs sm:text-sm text-slate-400 max-w-xl mx-auto leading-relaxed">Ya sea que busques comprar, vender, consignar o financiar un vehículo, te acompañamos con asesoría experta paso a paso.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { title: 'Venta de Autos', desc: 'Un catálogo dinámico de seminuevos garantizados con financiamiento adaptable.', img: IMAGES.carBuySell, tag: 'Compra' },
-              { title: 'Compra Directa', desc: 'Te ofrecemos la mejor tasación de mercado y te pagamos de manera inmediata y segura.', img: IMAGES.salesman, tag: 'Venta rápida' },
-              { title: 'Consignación Especial', desc: 'Déjanos vender tu auto bajo las mejores condiciones comerciales de Morelos.', img: IMAGES.keys, tag: 'Consigna' },
-              { title: 'Planes de Financiamiento', desc: 'Alianzas bancarias de primer nivel para enganches del 20% y mensualidades cómodas.', img: IMAGES.financing, tag: 'Crédito' }
-            ].map((srv, i) => (
+            {[{ title: 'Venta de Autos', desc: 'Un catálogo dinámico de seminuevos garantizados con financiamiento adaptable.', img: IMAGES.carBuySell, tag: 'Compra' }, { title: 'Compra Directa', desc: 'Te ofrecemos la mejor tasación de mercado y te pagamos de manera inmediata y segura.', img: IMAGES.salesman, tag: 'Venta rápida' }, { title: 'Consignación Especial', desc: 'Déjanos vender tu auto bajo las mejores condiciones comerciales de Morelos.', img: IMAGES.keys, tag: 'Consigna' }, { title: 'Planes de Financiamiento', desc: 'Alianzas bancarias de primer nivel para enganches del 20% y mensualidades cómodas.', img: IMAGES.financing, tag: 'Crédito' }].map((srv, i) => (
               <div key={i} className="bg-slate-900/60 border border-slate-850 hover:border-amber-500/20 rounded-2xl overflow-hidden transition-all duration-300 flex flex-col h-full shadow-md">
                 <div className="h-40 overflow-hidden relative bg-slate-950">
                   <img src={srv.img} alt={srv.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
@@ -251,7 +238,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* Gestoría Vehicular Section */}
       <section id="gestoria" className="py-24 border-t border-slate-900 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="text-center space-y-3">
           <span className="font-mono text-xs text-amber-500 uppercase tracking-widest font-bold">Trámites Oficiales</span>
@@ -282,14 +268,12 @@ export default function App() {
         </div>
       </section>
 
-      {/* Financing (Financiamiento) */}
       <section id="financiamiento" className="py-24 bg-slate-900/20 border-t border-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <FinancingCalculator />
         </div>
       </section>
 
-      {/* Inventory (Inventario) */}
       <section id="inventario" className="py-24 border-t border-slate-900 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="text-center space-y-3">
           <span className="font-mono text-xs text-amber-500 uppercase tracking-widest font-bold">Catálogo Actual</span>
@@ -315,7 +299,6 @@ export default function App() {
         )}
       </section>
 
-      {/* Marketplace Section */}
       <section id="marketplace" className="py-24 bg-slate-900/20 border-t border-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center space-y-3">
@@ -342,9 +325,7 @@ export default function App() {
                   <div className="flex items-center justify-between pt-1 border-t border-slate-850/60">
                     <span className="font-sans font-black text-sm text-white">{car.precio}</span>
                     {car.estado === 'disponible' ? (
-                      <a href={`${SOCIAL_LINKS.whatsapp}?text=${encodeURIComponent(`Hola! Me interesa preguntar sobre el ${car.nombre} con precio ${car.precio} que tienen publicado.`)}`} target="_blank" rel="noreferrer" className="text-[10px] font-mono text-emerald-400 font-bold uppercase tracking-wider">
-                        Preguntar →
-                      </a>
+                      <a href={`${SOCIAL_LINKS.whatsapp}?text=${encodeURIComponent(`Hola! Me interesa preguntar sobre el ${car.nombre} con precio ${car.precio} que tienen publicado.`)}`} target="_blank" rel="noreferrer" className="text-[10px] font-mono text-emerald-400 font-bold uppercase tracking-wider">Preguntar →</a>
                     ) : (
                       <span className="text-[10px] font-mono text-slate-600 font-bold uppercase tracking-wider">Vendido</span>
                     )}
@@ -361,7 +342,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* Testimonials (Testimonios) */}
       <section className="py-24 border-t border-slate-900 max-w-4xl mx-auto px-4 text-center space-y-10">
         <div className="space-y-2">
           <span className="font-mono text-xs text-amber-500 uppercase tracking-widest font-bold">Testimonios</span>
@@ -389,7 +369,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* FAQ Section */}
       <section className="py-24 bg-slate-900/20 border-t border-slate-900">
         <div className="max-w-3xl mx-auto px-4 space-y-10">
           <div className="text-center space-y-3">
@@ -412,7 +391,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* Contact Form Section */}
       <section id="contacto" className="py-24 border-t border-slate-900 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="text-center space-y-3">
           <span className="font-mono text-xs text-amber-500 uppercase tracking-widest font-bold">Contacto</span>
@@ -423,11 +401,7 @@ export default function App() {
           <div className="lg:col-span-5 space-y-6">
             <h4 className="font-sans font-black text-xl text-white">Nuestra Información</h4>
             <div className="space-y-4">
-              {[
-                { label: 'WhatsApp de contacto', val: '+52 777 453 9174', sub: 'Atención inmediata', icon: <Phone size={16} /> },
-                { label: 'Correo de soporte', val: 'cuernagarage@gmail.com', sub: 'Cotizaciones complejas', icon: <Mail size={16} /> },
-                { label: 'Ubicación física', val: 'Cuernavaca, Morelos, México', sub: 'Previa cita programada', icon: <MapPin size={16} /> }
-              ].map((item, idx) => (
+              {[{ label: 'WhatsApp de contacto', val: '+52 777 453 9174', sub: 'Atención inmediata', icon: <Phone size={16} /> }, { label: 'Correo de soporte', val: 'cuernagarage@gmail.com', sub: 'Cotizaciones complejas', icon: <Mail size={16} /> }, { label: 'Ubicación física', val: 'Cuernavaca, Morelos, México', sub: 'Previa cita programada', icon: <MapPin size={16} /> }].map((item, idx) => (
                 <div key={idx} className="flex gap-4 p-4 bg-slate-900/40 border border-slate-900 rounded-2xl">
                   <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl text-amber-500 h-11 w-11 flex items-center justify-center flex-shrink-0">{item.icon}</div>
                   <div>
@@ -445,7 +419,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="bg-slate-950 border-t border-slate-900 py-12 px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-3 md:col-span-2">
@@ -477,14 +450,12 @@ export default function App() {
         </div>
       </footer>
 
-      {/* Floating Back to Top Button */}
       {showBackToTop && (
         <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="fixed bottom-6 right-6 z-50 p-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-full shadow-lg transition-all cursor-pointer" title="Volver arriba">
           <ChevronUp size={18} />
         </button>
       )}
 
-      {/* Login Modal */}
       {showLogin && (
         <LoginModal
           onClose={() => setShowLogin(false)}
@@ -496,7 +467,7 @@ export default function App() {
         />
       )}
 
-      {/* 4. Admin Panel actualizado para guardar en Supabase */}
+      {/* ✅ AdminPanel con saveCarsToSupabase y fetchCars al cerrar */}
       {showAdmin && (
         <AdminPanel
           cars={cars}
