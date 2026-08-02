@@ -1,1 +1,1 @@
-# Cuerna Garage Web & CRM.
+# Cuerna Garage Web & CRM
